@@ -3,7 +3,8 @@
 import { useEffect } from "react"
 
 /**
- * The Choreography: the one shared observer that drives the page's Reveals.
+ * The Choreography: the one shared observer that drives the page's Reveals
+ * and the Media Wells' videos.
  *
  * The mechanism is deliberately small and generic. It watches the elements the
  * marks select, and tells each of them when it comes into view. What "coming
@@ -51,10 +52,15 @@ export const MARKS = {
   drawTick: "data-draw-tick",
   /** A section eyebrow that draws in. */
   drawEyebrow: "data-draw-eyebrow",
+  /** A Media Well: the box that holds a demo video. */
+  mediaWell: "data-media-well",
 } as const
 
 /** The elements the Reveal owns. */
 export const REVEAL_SELECTOR = `[${MARKS.reveal}], [${MARKS.revealGroup}]`
+
+/** The Media Wells: the boxes that hold the demo videos. */
+export const MEDIA_WELL_SELECTOR = `[${MARKS.mediaWell}]`
 
 /** The drawing marks: the one-shot decorations that draw themselves in. */
 export const DRAW_SELECTOR = [
@@ -99,6 +105,15 @@ export type Observation = {
    * cannot be tied to a view timeline.
    */
   standsDownWhenCssDrives?: boolean
+  /**
+   * Whether this kind is left alone on the Reduced Path.
+   *
+   * A kind that ties a behaviour to the scroll position stands down when the
+   * visitor has asked for reduced motion: the same content, with the motion
+   * taken out. The Media Well is such a kind — its videos are the visitor's
+   * to start, and where they are on the page does not decide.
+   */
+  standsDownWhenReducedMotion?: boolean
   /** What happens to the element when it enters the viewport. */
   onEnter: (element: Element) => void
   /** What happens to the element when it leaves the viewport again. */
@@ -108,6 +123,44 @@ export type Observation = {
 /** Reveals an element: the one thing the Reveal and the drawing marks do. */
 function reveal(element: Element): void {
   element.classList.add(REVEALED_CLASS)
+}
+
+/**
+ * The video inside a Media Well, if it has one.
+ *
+ * The mark is on the well rather than on the video, because the well is what
+ * comes into view — but a well does not have to hold a video: the last
+ * Feature Card's well holds a link to the app instead. So the video is looked
+ * for, and it may not be there.
+ */
+function videoIn(element: Element): HTMLVideoElement | null {
+  return element.querySelector<HTMLVideoElement>("video")
+}
+
+/**
+ * Starts a Media Well's video.
+ *
+ * `play()` returns a promise that can reject: a browser may refuse to play a
+ * video with sound, and a video whose source has gone may reject too. The
+ * rejection is handled rather than left as an unhandled promise in the
+ * console — there is nothing to do about it here, because the video is still
+ * there for the visitor either way.
+ */
+function playVideo(element: Element): void {
+  const video = videoIn(element)
+
+  if (!video) {
+    return
+  }
+
+  video.play().catch(() => {
+    // The browser refused to play the video.
+  })
+}
+
+/** Stops a Media Well's video. */
+function pauseVideo(element: Element): void {
+  videoIn(element)?.pause()
 }
 
 /** The kinds of observation the page makes. */
@@ -123,7 +176,22 @@ export const OBSERVATIONS: Observation[] = [
     selector: DRAW_SELECTOR,
     onEnter: reveal,
   },
+  {
+    kind: "media-well",
+    selector: MEDIA_WELL_SELECTOR,
+    standsDownWhenReducedMotion: true,
+    onEnter: playVideo,
+    onLeave: pauseVideo,
+  },
 ]
+
+/**
+ * The media query that decides whether the page is on the Reduced Path.
+ *
+ * It is the same query the stylesheet uses, so the CSS and the observer agree
+ * about which path the visitor is on.
+ */
+const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)"
 
 /**
  * Whether the browser can drive the Reveal from a scroll position itself.
@@ -139,24 +207,42 @@ export function supportsScrollDrivenAnimations(): boolean {
   return CSS.supports("animation-timeline: view()")
 }
 
+/**
+ * Whether the visitor has asked for reduced motion.
+ *
+ * The observer reads the same preference the stylesheet reads, so that the
+ * two never disagree about which path the page is on.
+ */
+export function prefersReducedMotion(): boolean {
+  if (typeof window === "undefined" || typeof window.matchMedia !== "function") {
+    return false
+  }
+
+  return window.matchMedia(REDUCED_MOTION_QUERY).matches
+}
+
 /** The observations the observer acts on right now. */
 function activeObservations(): Observation[] {
   const cssDrives = supportsScrollDrivenAnimations()
+  const reducedMotion = prefersReducedMotion()
 
   return OBSERVATIONS.filter(
-    (observation) => !(observation.standsDownWhenCssDrives && cssDrives),
+    (observation) =>
+      !(observation.standsDownWhenCssDrives && cssDrives) &&
+      !(observation.standsDownWhenReducedMotion && reducedMotion),
   )
 }
 
 /** The observer, the mutation observer, and what they are watching. */
 let observer: IntersectionObserver | null = null
 let mutationObserver: MutationObserver | null = null
+let motionQuery: MediaQueryList | null = null
 const watched = new Map<Element, Observation>()
 let holders = 0
 
 /** Observes an element if it carries a mark and is not watched already. */
-function watch(element: Element): void {
-  for (const observation of activeObservations()) {
+function watch(element: Element, observations: Observation[]): void {
+  for (const observation of observations) {
     if (watched.has(element) || !element.matches(observation.selector)) {
       continue
     }
@@ -168,11 +254,13 @@ function watch(element: Element): void {
 
 /** Observes every marked element inside a root, and the root itself. */
 function scan(root: ParentNode): void {
+  const observations = activeObservations()
+
   if (root instanceof Element) {
-    watch(root)
+    watch(root, observations)
   }
 
-  for (const observation of activeObservations()) {
+  for (const observation of observations) {
     for (const element of root.querySelectorAll(observation.selector)) {
       if (!watched.has(element)) {
         watched.set(element, observation)
@@ -270,6 +358,24 @@ function handleMutations(records: MutationRecord[]): void {
   }
 }
 
+/**
+ * The observer's work is decided by the visitor's motion preference, so a
+ * change to that preference changes what the observer does: it starts again
+ * with the observations that fit the new preference.
+ *
+ * The elements that have already been revealed keep their revealed state — the
+ * class is on the element, not in the observer's bookkeeping — so the page
+ * does not flash when the preference changes.
+ */
+function handleMotionChange(): void {
+  if (!observer) {
+    return
+  }
+
+  stop()
+  start()
+}
+
 /** Starts the choreography: one observer, watching the whole document. */
 function start(): void {
   if (observer) {
@@ -287,6 +393,9 @@ function start(): void {
     childList: true,
     subtree: true,
   })
+
+  motionQuery = window.matchMedia(REDUCED_MOTION_QUERY)
+  motionQuery.addEventListener("change", handleMotionChange)
 }
 
 /** Stops the choreography and gives back everything it holds. */
@@ -296,6 +405,9 @@ function stop(): void {
 
   mutationObserver?.disconnect()
   mutationObserver = null
+
+  motionQuery?.removeEventListener("change", handleMotionChange)
+  motionQuery = null
 
   watched.clear()
   document.documentElement.classList.remove(RUNNING_CLASS)
