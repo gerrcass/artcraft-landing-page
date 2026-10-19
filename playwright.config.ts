@@ -1,6 +1,11 @@
 import { defineConfig } from "@playwright/test"
 
-const PORT = 3000
+/**
+ * The port the dev server runs on. It can be chosen with the `PORT`
+ * environment variable, so that two worktrees can run their suites at the
+ * same time without one of them reusing the other's server.
+ */
+const PORT = Number(process.env.PORT ?? 3000)
 const baseURL = `http://localhost:${PORT}`
 
 /**
@@ -33,7 +38,7 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: "npm run dev",
+    command: `npm run dev -- -p ${PORT}`,
     url: baseURL,
     reuseExistingServer: !process.env.CI,
     timeout: 180_000,
