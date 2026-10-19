@@ -88,3 +88,15 @@ _Avoid_: Fade in, appear, entrance animation
 The static presentation of a Choreographed section when the user has asked for reduced
 motion: same content, no scroll-linked behaviour.
 _Avoid_: Fallback, no-motion mode, static mode
+
+## Verification
+
+**Baseline**:
+The committed screenshot of the whole landing page at one width and in one theme,
+against which a fresh capture is compared. There are six: three widths, two themes.
+_Avoid_: Screenshot, golden file, snapshot (Playwright's own word for the same thing)
+
+**Capture**:
+The full-page screenshot taken of the landing page during a test run, on the Reduced
+Path with the demo videos frozen on one frame, and compared against a Baseline.
+_Avoid_: Screenshot, image, evidence
