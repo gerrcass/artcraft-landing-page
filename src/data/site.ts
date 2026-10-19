@@ -107,6 +107,19 @@ export const site = {
   discord: "https://discord.gg/artcraft",
 } as const;
 
+/**
+ * The skip link: the first thing a keyboard reaches, and the way past the
+ * header to the content.
+ *
+ * It is hidden until it takes focus, and it says what it does.
+ */
+export const skipLink = {
+  /** The link's own text. */
+  label: "Skip to content",
+  /** The id of the element it jumps to — the main content. */
+  target: "main",
+} as const;
+
 /** The theme toggle's accessible names, named for the theme each one switches to. */
 export const themeToggle = {
   toLight: "Switch to light theme",

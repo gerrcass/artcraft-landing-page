@@ -34,7 +34,7 @@ export function Start() {
         />
 
         <div className="flex flex-col items-center px-6 py-20 text-center md:py-28">
-          <p className="hud-label text-faint">{start.eyebrow}</p>
+          <p className="hud-label text-muted">{start.eyebrow}</p>
 
           <Heading
             headline={start.headline}

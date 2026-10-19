@@ -1,3 +1,4 @@
+import { SkipLink } from "@/components/primitives/SkipLink"
 import { Features } from "@/components/sections/Features"
 import { Hero } from "@/components/sections/Hero"
 import { Marquee } from "@/components/sections/Marquee"
@@ -14,6 +15,7 @@ import { Start } from "@/components/sections/Start"
 export default function Home() {
   return (
     <>
+      <SkipLink />
       <SiteHeader />
       <main id="main" tabIndex={-1}>
         <Hero />

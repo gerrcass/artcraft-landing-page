@@ -36,6 +36,11 @@ function panelId(label: string) {
  * The trigger is a button, so it opens with Enter and with Space, and the
  * links in the panel are reachable with Tab. The panel closes on an outside
  * click and on Escape, and Escape returns focus to the trigger.
+ *
+ * The trigger is a disclosure button: it carries `aria-expanded`, and points
+ * at the panel with `aria-controls`. It does not carry `aria-haspopup` — the
+ * panel is a group of links rather than a menu, and the attribute would say
+ * otherwise.
  */
 export function NavDropdown({
   label,
@@ -88,7 +93,6 @@ export function NavDropdown({
         ref={trigger}
         type="button"
         aria-expanded={open}
-        aria-haspopup="true"
         aria-controls={id}
         data-state={open ? "open" : "closed"}
         onClick={() => setOpen((value) => !value)}
@@ -99,30 +103,35 @@ export function NavDropdown({
           <Chevron />
         </span>
       </button>
-      {open ? (
-        <div
-          id={id}
-          role="group"
-          aria-label={label}
-          className="absolute left-0 top-full z-50 min-w-[12rem] border border-line bg-bg-raised py-1 shadow-lg"
-        >
-          <ul>
-            {links.map((link) => (
-              <li key={link.href}>
-                <a
-                  href={link.href}
-                  className="flex items-center px-3 py-2 hud-label text-muted transition-colors hover:bg-invert-bg hover:text-invert-fg"
-                  {...(link.external
-                    ? { target: "_blank", rel: "noopener noreferrer" }
-                    : {})}
-                >
-                  {link.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-      ) : null}
+      {/*
+          The panel is always in the document, and hidden when it is closed, so
+          that the trigger's `aria-controls` points at something that exists.
+          A hidden panel is out of the accessibility tree and out of the tab
+          order, so its links are only reachable once the panel is open.
+        */}
+      <div
+        id={id}
+        role="group"
+        aria-label={label}
+        hidden={!open}
+        className="absolute left-0 top-full z-50 min-w-[12rem] border border-line bg-bg-raised py-1 shadow-lg"
+      >
+        <ul>
+          {links.map((link) => (
+            <li key={link.href}>
+              <a
+                href={link.href}
+                className="flex items-center px-3 py-2 hud-label text-muted transition-colors hover:bg-invert-bg hover:text-invert-fg"
+                {...(link.external
+                  ? { target: "_blank", rel: "noopener noreferrer" }
+                  : {})}
+              >
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
     </li>
   )
 }

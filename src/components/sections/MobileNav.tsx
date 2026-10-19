@@ -252,7 +252,7 @@ export function MobileNav() {
             {headerNav.map((entry) =>
               entry.children ? (
                 <li key={entry.label} className="mt-6 first:mt-0">
-                  <p className="hud-label text-faint">{entry.label}</p>
+                  <p className="hud-label text-muted">{entry.label}</p>
                   <ul className="mt-2 flex flex-col border-l border-line pl-3">
                     {entry.children.map((child) => (
                       <li key={child.href}>

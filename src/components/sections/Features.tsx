@@ -48,7 +48,7 @@ function MetaRow({ entry }: { entry: FeatureEntry }) {
   return (
     <div className="flex items-center justify-between gap-4 border-b border-line px-6 py-2.5 md:px-8">
       <p className="hud-label text-muted">{entry.category}</p>
-      <p className="hud-label text-faint">{entry.index}</p>
+      <p className="hud-label text-muted">{entry.index}</p>
     </div>
   )
 }
@@ -116,7 +116,7 @@ function LinkCard({ entry }: { entry: Extract<FeatureEntry, { kind: "link" }> })
         <span className="flex h-14 w-14 items-center justify-center border border-line-strong text-ink transition-colors group-hover:bg-invert-bg group-hover:text-invert-fg">
           <ArrowUpRight />
         </span>
-        <p className="hud-label text-faint">{entry.action.label}</p>
+        <p className="hud-label text-muted">{entry.action.label}</p>
         <span aria-hidden="true" className="tick top-2 left-2 opacity-60" />
         <span aria-hidden="true" className="tick bottom-2 right-2 opacity-60" />
       </div>
