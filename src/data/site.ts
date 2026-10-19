@@ -28,6 +28,22 @@ export type Headline = {
   accentMuted?: boolean;
 };
 
+/**
+ * A heading's parts, as plain text.
+ *
+ * The parts are joined the way they read: a space between words, but no space
+ * before punctuation — "Start crafting." is not "Start crafting .".
+ */
+export function headlineText({ before, accent, after }: Headline): string {
+  const tail = after
+    ? /^[\p{P}]/u.test(after)
+      ? after
+      : ` ${after}`
+    : ""
+
+  return `${before} ${accent}${tail}`
+}
+
 /** The numbered strip that opens a section. */
 export type SectionBar = {
   number: string;
@@ -84,6 +100,8 @@ export const site = {
   email: "hello@storyteller.ai",
   tagline: "The open-source studio for controllable AI image and video.",
   logo: "/artcraft-icon.svg",
+  /** The logo's accessible name — the original's `alt` on the vendored mark. */
+  logoAlt: "ArtCraft",
   repository: "https://github.com/storytold/artcraft",
   app: "https://app.getartcraft.com/",
   discord: "https://discord.gg/artcraft",

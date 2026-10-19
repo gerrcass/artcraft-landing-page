@@ -1,0 +1,13 @@
+/*
+ * The Marquee's Reduced Path.
+ *
+ * The token layer carries the original's `.marquee` and `.marquee-track`
+ * classes and the `marquee-scroll` keyframes. The rule below is the one thing
+ * the clone adds: when the visitor has asked for reduced motion the track
+ * stops moving, and the entries stay where they are — readable.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .marquee .marquee-track {
+    animation: none;
+  }
+}
