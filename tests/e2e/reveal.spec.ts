@@ -253,9 +253,15 @@ test("the page's own drawing marks are drawn once they are in view", async ({
   await visit({ theme: "light" })
 
   // The Frame's ticks are on the page from the start — they are the marks
-  // the choreography finds without being told about them.
+  // the choreography finds without being told about them. The hero fills the
+  // first screen, so the first Frame is below the fold until it is scrolled
+  // to.
   const tick = page.locator("[data-draw-tick]").first()
   await expect(tick).toBeAttached()
+
+  await tick.evaluate((element) =>
+    element.scrollIntoView({ block: "center", behavior: "instant" }),
+  )
 
   await expect
     .poll(async () => scales(await computed(page, "[data-draw-tick]", "transform")))
