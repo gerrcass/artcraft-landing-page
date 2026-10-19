@@ -1,0 +1,200 @@
+/* ---------------------------------------------------------------------------
+ * The Choreography.
+ *
+ * The Reveal is the one-shot entrance transition applied to an element as it
+ * enters the viewport. This file holds everything the Reveal needs: the
+ * hidden start state, the state it resolves to, the scroll-driven alternative
+ * the browser runs natively where it can, and the Reduced Path — the same
+ * content with the motion taken out.
+ *
+ * The colours and the typefaces are not here: they are tokens, and the token
+ * layer is `src/app/globals.css`. The motion values below are the exception,
+ * and they are named the same way the tokens are — written once here, reached
+ * by name everywhere else. They live here rather than in the token layer
+ * because that file is being edited by other tickets as we speak.
+ * ------------------------------------------------------------------------- */
+
+:root {
+  /* How far a Reveal sits below where it will end up. */
+  --reveal-offset: 14px;
+  /* How long a Reveal takes to arrive. */
+  --reveal-duration: 700ms;
+  /* How a Reveal eases into place. */
+  --reveal-easing: cubic-bezier(0.22, 1, 0.36, 1);
+  /* How long a drawing mark takes to draw itself in. */
+  --draw-duration: 600ms;
+}
+
+/* ---------------------------------------------------------------------------
+ * The Reveal.
+ *
+ * The hidden start state is scoped to the running choreography, so a visitor
+ * whose browser never runs the script sees the whole page rather than a blank
+ * one. The revealed state is the one the observer asks for by adding
+ * `is-revealed` to the element.
+ * ------------------------------------------------------------------------- */
+
+.choreography [data-reveal] {
+  opacity: 0;
+  transform: translateY(var(--reveal-offset));
+  transition:
+    opacity var(--reveal-duration) var(--reveal-easing),
+    transform var(--reveal-duration) var(--reveal-easing);
+}
+
+.choreography [data-reveal].is-revealed {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------------------------------------------------------------------------
+ * The Reveal Group.
+ *
+ * The group's children reveal together: the group is what the observer
+ * watches, and the children follow it in. A child that carries `data-reveal`
+ * inside a group is therefore held back by the group, and the two rules below
+ * — the second of which is more specific than the rule above it — decide
+ * which of them wins.
+ * ------------------------------------------------------------------------- */
+
+.choreography [data-reveal-group] > [data-reveal] {
+  opacity: 0;
+  transform: translateY(var(--reveal-offset));
+}
+
+.choreography [data-reveal-group].is-revealed > [data-reveal] {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------------------------------------------------------------------------
+ * The drawing marks.
+ *
+ * A rule draws itself in from the left, a tick draws itself in, and a
+ * section eyebrow fades and slides in. The observer drives all three in every
+ * browser: a sticky element's view progress freezes the moment it sticks, so
+ * the Section Bar's eyebrow cannot be tied to a view timeline.
+ * ------------------------------------------------------------------------- */
+
+.choreography [data-draw-rule] {
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--draw-duration) var(--reveal-easing);
+}
+
+.choreography [data-draw-rule].is-revealed {
+  transform: scaleX(1);
+}
+
+.choreography [data-draw-tick] {
+  transform: scale(0);
+  transition: transform var(--draw-duration) var(--reveal-easing);
+}
+
+.choreography [data-draw-tick].is-revealed {
+  transform: scale(1);
+}
+
+.choreography [data-draw-eyebrow] {
+  opacity: 0;
+  transform: translateY(-8px);
+  transition:
+    opacity var(--draw-duration) var(--reveal-easing),
+    transform var(--draw-duration) var(--reveal-easing);
+}
+
+.choreography [data-draw-eyebrow].is-revealed {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------------------------------------------------------------------------
+ * The scroll-driven alternative.
+ *
+ * Where the browser supports it, the Reveal is tied to a view timeline: the
+ * motion follows the scroll position instead of firing at a threshold, and
+ * the observer's job is only the fallback. The observer stands down for the
+ * Reveal in the same browsers, so the two never fight over the same property.
+ *
+ * The duration is left at `auto`, which is what a scroll-driven animation
+ * needs: the timeline supplies the progress.
+ * ------------------------------------------------------------------------- */
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .choreography [data-reveal] {
+      animation: reveal-rise linear both;
+      animation-duration: auto;
+      animation-timeline: view();
+      animation-range: entry 0% entry 80%;
+      transition: none;
+    }
+  }
+}
+
+@keyframes reveal-rise {
+  from {
+    opacity: 0;
+    transform: translateY(var(--reveal-offset));
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * The Reduced Path.
+ *
+ * The same content with the motion removed. The global rule is the original's
+ * own: the transitions and the animations are cut short and the smooth
+ * scrolling is turned off.
+ *
+ * The rule cannot be left to do the whole job. A `transition-duration` of
+ * .01ms is fine — the element still ends up visible — but a scroll-driven
+ * `animation-duration` of .01ms is not, so the view-timeline animations are
+ * taken out of the running altogether and the Reveal elements are given an
+ * explicit final state. Nothing is left hidden, and nothing moves on hover.
+ * ------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+
+  [data-reveal],
+  [data-reveal-group] > [data-reveal],
+  [data-draw-rule],
+  [data-draw-tick],
+  [data-draw-eyebrow] {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  /* The demo videos are present and playable, but they are not scrubbed.
+     This is the half of that rule that is CSS; the other half is the
+     observer, which stands down for the Media Well on this path, so where a
+     video is on the page does not decide whether it plays. */
+  video {
+    animation: none !important;
+  }
+
+  /* Nothing moves on hover. A colour may change; a position may not. The
+     transform, the translate and the scale are the three ways this project's
+     elements move, so all three are held still. A rotation is left alone: it
+     changes an element's orientation rather than its place on the page, and
+     suppressing it would break the affordances that carry meaning. */
+  *:hover {
+    transform: none !important;
+    translate: none !important;
+    scale: none !important;
+  }
+}

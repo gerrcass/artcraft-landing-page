@@ -1,5 +1,6 @@
 import { NavDropdown } from "@/components/primitives/NavDropdown"
 import { ThemeToggle } from "@/components/primitives/ThemeToggle"
+import { MobileNav } from "@/components/sections/MobileNav"
 import { headerAside, headerNav, launchApp, site } from "@/data/site"
 import { currentPath, isCurrentPath } from "@/lib/nav"
 
@@ -34,7 +35,7 @@ export function SiteHeader() {
             {/* The original's logo is a plain image, and the themed filter
                 needs the element itself. */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img alt="ArtCraft" src={site.logo} className="themed-logo h-6 w-auto" />
+            <img alt={site.logoAlt} src={site.logo} className="themed-logo h-6 w-auto" />
           </a>
           <nav aria-label="Main" className="hidden min-w-0 items-stretch lg:flex">
             <ul className="flex h-full items-stretch">
@@ -139,6 +140,7 @@ export function SiteHeader() {
           <div className="flex items-stretch md:hidden">
             <ThemeToggle />
           </div>
+          <MobileNav />
         </div>
       </div>
     </nav>

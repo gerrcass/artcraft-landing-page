@@ -107,6 +107,27 @@ export const site = {
   discord: "https://discord.gg/artcraft",
 } as const;
 
+/** The theme toggle's accessible names, named for the theme each one switches to. */
+export const themeToggle = {
+  toLight: "Switch to light theme",
+  toDark: "Switch to dark theme",
+} as const;
+
+/**
+ * The mobile drawer's accessible names.
+ *
+ * The menu button carries the original's name; the drawer names itself, and
+ * its close button says what it closes.
+ */
+export const mobileMenu = {
+  /** The menu button's accessible name. */
+  button: "Open main menu",
+  /** The drawer's accessible name. */
+  label: "Main menu",
+  /** The drawer's close button's accessible name. */
+  close: "Close main menu",
+} as const;
+
 /** The primary navigation. A link with `children` opens a dropdown panel. */
 export type NavEntry = NavLink & { children?: NavLink[] };
 
@@ -320,6 +341,15 @@ export const proof = {
     accent: "with",
     after: "ArtCraft.",
   } satisfies Headline,
+  /** The play affordance's own copy: the chip's label, and the control's name. */
+  play: {
+    label: "Play",
+    /**
+     * The accessible name of a play control: this prefix, then the film's
+     * title — "Play video: Made with ArtCraft #1".
+     */
+    namePrefix: "Play video:",
+  },
   entries: [
     {
       label: "Community film",
