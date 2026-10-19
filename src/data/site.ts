@@ -491,7 +491,7 @@ export const orbitTiles: OrbitTile[] = [
   { src: "/images/orbit/tile-10.jpg", alt: "", x: 80, y: 78, width: 18, depth: 0.22, duration: 35 },
 ];
 
-/** The Orbit's rings and arcs, in the original's proportions. */
+/** The Orbit's rings and arcs, measured off the original's capture. */
 export type OrbitRing = {
   /** The ring's diameter as a percentage of the Orbit's width. */
   diameter: number;
@@ -509,15 +509,20 @@ export type OrbitRing = {
   color?: "orbit-arc-1" | "orbit-arc-2" | "orbit-arc-3";
 };
 
+/**
+ * The rings, measured off `docs/reference/screenshots/hero-light-1440.webp`: the
+ * faint lines cross a tile-free band of the capture about 92 pixels apart, and
+ * they are concentric about a point below and very slightly right of the
+ * canvas's centre.
+ */
 export const orbitRings: OrbitRing[] = [
-  { diameter: 26, ticks: true, weight: 1 },
-  { diameter: 44, ticks: true, weight: 1 },
-  { diameter: 62, ticks: true, weight: 1 },
-  { diameter: 80, ticks: true, weight: 1 },
-  { diameter: 98, ticks: true, weight: 1 },
-  { diameter: 118, ticks: true, weight: 1 },
-  { diameter: 44, weight: 2, arc: { start: 90, sweep: 45 }, color: "orbit-arc-1" },
-  { diameter: 62, weight: 2, arc: { start: 200, sweep: 90 }, color: "orbit-arc-2" },
-  { diameter: 80, weight: 2, arc: { start: 20, sweep: 70 }, color: "orbit-arc-3" },
-  { diameter: 98, weight: 2, arc: { start: 300, sweep: 60 }, color: "orbit-arc-1" },
+  { diameter: 42.4, ticks: true, weight: 1 },
+  { diameter: 55.1, ticks: true, weight: 1 },
+  { diameter: 68.1, ticks: true, weight: 1 },
+  { diameter: 80.3, ticks: true, weight: 1 },
+  { diameter: 93.1, ticks: true, weight: 1 },
+  { diameter: 106.3, ticks: true, weight: 1 },
+  { diameter: 90.3, weight: 4, arc: { start: 160, sweep: 75 }, color: "orbit-arc-1" },
+  { diameter: 99.2, weight: 4, arc: { start: 295, sweep: 45 }, color: "orbit-arc-2" },
+  { diameter: 81.8, weight: 4, arc: { start: 10, sweep: 40 }, color: "orbit-arc-3" },
 ];

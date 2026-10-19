@@ -13,11 +13,16 @@ import "./orbit.css"
  * The original's WebGL canvas was 1440 × 852 in a 1440-wide viewport. The
  * clone draws the same scene in SVG with that viewBox, so the rings and the
  * arcs scale with the viewport instead of sitting at a fixed size.
+ *
+ * The centre is not the canvas's centre. Measuring the reference capture, the
+ * faint ring lines are concentric about a point a little below the canvas's
+ * middle and a little to the right of it — the scene is a disc seen in
+ * perspective, not a target painted on the glass.
  */
 const ORBIT_WIDTH = 1440
 const ORBIT_HEIGHT = 852
-const ORBIT_CENTRE_X = ORBIT_WIDTH / 2
-const ORBIT_CENTRE_Y = ORBIT_HEIGHT / 2
+const ORBIT_CENTRE_X = 730
+const ORBIT_CENTRE_Y = 502
 
 /**
  * The Wordmark's size, in container-query units against its own container.
@@ -37,25 +42,23 @@ function ringRadius(diameter: number) {
 }
 
 /**
- * The Ticks on a ring: a short dash across the ring, pointing at the centre.
+ * The Ticks on a ring: the small registration crosses the original draws on
+ * its rings, set around the circumference at an even angle.
  *
- * The original's scene draws them as radial dashes, so a tick and the ring it
- * crosses read as a small cross rotated to the ring's angle. A cross drawn in
- * screen space would not do that, and would be far heavier than the original's.
+ * They are drawn in the ring's own faint colour, because that is how faint the
+ * original's are — a tick that competes with the ring it sits on is not what
+ * the original drew.
  */
 function tickPath(radius: number) {
-  const arm = 5.5
+  const arm = 3
   const marks = 24
   let path = ""
 
   for (let index = 0; index < marks; index += 1) {
     const angle = (index / marks) * Math.PI * 2
-    const cos = Math.cos(angle)
-    const sin = Math.sin(angle)
-    const x = ORBIT_CENTRE_X + cos * radius
-    const y = ORBIT_CENTRE_Y + sin * radius
-
-    path += `M${x - cos * arm} ${y - sin * arm}L${x + cos * arm} ${y + sin * arm}`
+    const x = ORBIT_CENTRE_X + Math.cos(angle) * radius
+    const y = ORBIT_CENTRE_Y + Math.sin(angle) * radius
+    path += `M${x - arm} ${y}H${x + arm}M${x} ${y - arm}V${y + arm}`
   }
 
   return path
@@ -147,7 +150,7 @@ function Orbit() {
               {ring.ticks ? (
                 <path
                   d={tickPath(radius)}
-                  stroke="var(--line-strong)"
+                  stroke="var(--line)"
                   strokeWidth={1}
                 />
               ) : null}
