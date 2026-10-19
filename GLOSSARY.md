@@ -31,6 +31,12 @@ _Avoid_: Rings, circles, halo
 The infinitely scrolling ticker of model and feature names directly beneath the hero.
 _Avoid_: Ticker, carousel, scroller
 
+**Drawer**:
+The panel that covers a narrow screen when the menu button is pressed. It holds every
+destination the site has, including the ones that sit behind the Resources and Craft Apps
+dropdowns on a wide screen.
+_Avoid_: Mobile menu, hamburger menu, slide-over, sidebar
+
 ## Typography
 
 **HUD Label**:
