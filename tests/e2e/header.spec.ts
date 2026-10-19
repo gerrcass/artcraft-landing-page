@@ -39,6 +39,40 @@ function themeToggle(page: Page) {
     .filter({ visible: true })
 }
 
+/** The colour of the body's background. */
+function backgroundColour(page: Page) {
+  return page
+    .locator("body")
+    .evaluate((node) => getComputedStyle(node).backgroundColor)
+}
+
+/**
+ * The colour of the body's background, read once the flip has settled.
+ *
+ * The theme's colours flip together, and the flip is a transition. The class
+ * that holds the transition comes off on a timer, and the transition itself
+ * can still be running when it does, so the background is read until it stops
+ * moving — and until it has moved, so that a background which has not begun
+ * to flip is not mistaken for one that has finished.
+ */
+async function settledBackground(page: Page, before: string) {
+  let previous = await backgroundColour(page)
+
+  for (let attempt = 0; attempt < 20; attempt += 1) {
+    await page.waitForTimeout(100)
+
+    const current = await backgroundColour(page)
+
+    if (current === previous && current !== before) {
+      return current
+    }
+
+    previous = current
+  }
+
+  return previous
+}
+
 test("the header is a sticky, translucent bar 48px tall with a hairline bottom border", async ({
   page,
   visit,
@@ -285,19 +319,23 @@ test("the theme toggle switches the page between the light and dark themes", asy
     await tokenColour(page, "--bg"),
   )
 
+  const before = await backgroundColour(page)
+
   await toggle.click()
 
   await expect(toggle).toHaveAttribute("aria-label", "Switch to light theme")
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark")
 
   // The colours flip together, so the transition has to finish before the
-  // background is read.
+  // background is read: the background is read once it has stopped moving,
+  // and the token is read from the same, settled, page — a token caught
+  // mid-flip would never equal the background.
   await expect(page.locator("html")).not.toHaveClass(/theme-anim/)
 
-  await expect(page.locator("body")).toHaveCSS(
-    "background-color",
-    await tokenColour(page, "--bg"),
-  )
+  const after = await settledBackground(page, before)
+
+  expect(after).not.toBe(before)
+  expect(after).toBe(await tokenColour(page, "--bg"))
 })
 
 test("the toggle's accessible name says which theme it will switch to", async ({
