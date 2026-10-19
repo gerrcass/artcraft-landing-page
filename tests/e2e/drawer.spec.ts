@@ -135,6 +135,15 @@ test("focus is trapped inside the drawer while it is open", async ({
 
   const backwards = await focus(page)
   expect(backwards.index).toBe(backwards.count - 1)
+
+  // Tabbing all the way round never leaves the drawer.
+  for (let step = 0; step < backwards.count + 2; step += 1) {
+    await page.keyboard.press("Tab")
+
+    const { index, count } = await focus(page)
+    expect(index).toBeGreaterThanOrEqual(0)
+    expect(index).toBeLessThan(count)
+  }
 })
 
 test("Escape closes the drawer and returns the focus to the menu button", async ({
@@ -143,7 +152,9 @@ test("Escape closes the drawer and returns the focus to the menu button", async 
 }) => {
   await visit({ viewport: viewports.mobile })
 
-  await menuButton(page).click()
+  // The drawer is opened from the keyboard, and closed from the keyboard.
+  await menuButton(page).focus()
+  await page.keyboard.press("Enter")
   await expect(drawer(page)).toBeVisible()
 
   await page.keyboard.press("Escape")
