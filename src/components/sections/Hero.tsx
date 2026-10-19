@@ -37,8 +37,11 @@ function ringRadius(diameter: number) {
 }
 
 /**
- * The Ticks on a ring: the same registration cross the Frame carries, set
- * around the circumference at an even angle.
+ * The Ticks on a ring: a short dash across the ring, pointing at the centre.
+ *
+ * The original's scene draws them as radial dashes, so a tick and the ring it
+ * crosses read as a small cross rotated to the ring's angle. A cross drawn in
+ * screen space would not do that, and would be far heavier than the original's.
  */
 function tickPath(radius: number) {
   const arm = 5.5
@@ -47,9 +50,12 @@ function tickPath(radius: number) {
 
   for (let index = 0; index < marks; index += 1) {
     const angle = (index / marks) * Math.PI * 2
-    const x = ORBIT_CENTRE_X + Math.cos(angle) * radius
-    const y = ORBIT_CENTRE_Y + Math.sin(angle) * radius
-    path += `M${x - arm} ${y}H${x + arm}M${x} ${y - arm}V${y + arm}`
+    const cos = Math.cos(angle)
+    const sin = Math.sin(angle)
+    const x = ORBIT_CENTRE_X + cos * radius
+    const y = ORBIT_CENTRE_Y + sin * radius
+
+    path += `M${x - cos * arm} ${y - sin * arm}L${x + cos * arm} ${y + sin * arm}`
   }
 
   return path
