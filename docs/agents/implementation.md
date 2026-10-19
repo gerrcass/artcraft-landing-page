@@ -111,7 +111,7 @@ Read them from `package.json`; the list below is the expected shape, not a subst
 | `npm run typecheck` | `tsc --noEmit` in strict mode |
 | `npm run lint` | ESLint, no errors |
 | `npm run test:e2e` | Playwright specs (needs a build or a dev server; see `playwright.config.ts`) |
-| `npm run test:visual` | the visual regression specs, baselines in `tests/e2e/__screenshots__` |
+| `npm run test:visual` | the visual regression specs, baselines in `tests/e2e/visual.spec.ts-snapshots/` |
 | `npm run check` | typecheck + lint + build + the whole test suite |
 
 A ticket is done when the typecheck passes, the lint passes, the ticket's own tests
