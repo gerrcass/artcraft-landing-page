@@ -112,7 +112,8 @@ function tileStyle(tile: (typeof orbitTiles)[number], index: number) {
  * The Orbit: the concentric rules, the heavy partial arcs, and the photo
  * tiles floating at varying depths behind the Wordmark.
  *
- * It is decorative, so it is hidden from assistive technology.
+ * It is decorative, so it is hidden from assistive technology: the scene, the
+ * rings drawn inside it, and the tiles all carry `aria-hidden`.
  */
 function Orbit() {
   const rings = orbitRings.filter((ring) => !ring.arc)
@@ -125,6 +126,7 @@ function Orbit() {
       className="orbit absolute inset-0 overflow-hidden"
     >
       <svg
+        aria-hidden="true"
         className="absolute inset-0 h-full w-full"
         viewBox={`0 0 ${ORBIT_WIDTH} ${ORBIT_HEIGHT}`}
         preserveAspectRatio="xMidYMid slice"
@@ -176,6 +178,7 @@ function Orbit() {
           key={tile.src}
           src={tile.src}
           alt=""
+          aria-hidden="true"
           className="orbit-tile"
           style={tileStyle(tile, index)}
         />
@@ -366,13 +369,13 @@ export function Hero() {
                     href={fact.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="hud-label flex items-center gap-1.5 text-faint hover:text-ink"
+                    className="hud-label flex items-center gap-1.5 text-muted hover:text-ink"
                   >
                     <GitHubMark />
                     {fact.label}
                   </a>
                 ) : (
-                  <p key={fact.label} className="hud-label text-faint">
+                  <p key={fact.label} className="hud-label text-muted">
                     {fact.label}
                   </p>
                 ),

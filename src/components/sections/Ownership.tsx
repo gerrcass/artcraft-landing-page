@@ -69,7 +69,7 @@ export function Ownership() {
               data-reveal="true"
               className="bg-bg p-6 md:p-8"
             >
-              <p className="hud-label text-faint">{entry.letter}</p>
+              <p className="hud-label text-muted">{entry.letter}</p>
               <h3 className="mt-6 font-display text-2xl font-medium tracking-[-0.02em] text-ink-strong">
                 {entry.title}
               </h3>

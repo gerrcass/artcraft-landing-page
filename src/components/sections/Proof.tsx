@@ -74,7 +74,7 @@ export function Proof() {
                 <figcaption className="hud-label text-muted">
                   {entry.label}
                 </figcaption>
-                <p className="hud-label text-faint">{entry.index}</p>
+                <p className="hud-label text-muted">{entry.index}</p>
               </div>
               <div className="relative aspect-video w-full overflow-hidden bg-bg-sunken">
                 <a

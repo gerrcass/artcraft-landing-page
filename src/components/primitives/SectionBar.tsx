@@ -5,6 +5,10 @@
  *
  * The number and the subject read as one unit. The descriptor is hidden on the
  * smallest breakpoint.
+ *
+ * The labels are painted in the muted ink rather than the faint one: the faint
+ * ink cannot meet AA on the background, and a label a visitor cannot read is
+ * not a label (ADR-0007).
  */
 export function SectionBar({
   number,
@@ -22,13 +26,13 @@ export function SectionBar({
     >
       <div className="flex items-center justify-between gap-4 px-6 py-3 md:px-10">
         <p className="hud-label text-muted">
-          <span className="text-faint">{number}</span>
-          <span aria-hidden="true" className="mx-2 text-faint">
+          <span className="text-muted">{number}</span>
+          <span aria-hidden="true" className="mx-2 text-muted">
             /
           </span>
           {subject}
         </p>
-        <p className="hud-label hidden text-faint sm:block">{descriptor}</p>
+        <p className="hud-label hidden text-muted sm:block">{descriptor}</p>
       </div>
     </div>
   )

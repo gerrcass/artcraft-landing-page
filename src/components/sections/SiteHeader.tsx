@@ -19,10 +19,13 @@ function DiscordIcon() {
  *
  * The bar is full-bleed — its inner row spans the viewport and the logo sits
  * at the very edge — where the sections below it sit inside the Frame.
+ *
+ * The bar is the page's banner landmark, and the navigation inside it is a
+ * navigation landmark of its own.
  */
 export function SiteHeader() {
   return (
-    <nav
+    <header
       id="site-nav"
       className="sticky top-0 left-0 z-50 w-full border-b border-line bg-bg/95 backdrop-blur-sm"
     >
@@ -143,6 +146,6 @@ export function SiteHeader() {
           <MobileNav />
         </div>
       </div>
-    </nav>
+    </header>
   )
 }

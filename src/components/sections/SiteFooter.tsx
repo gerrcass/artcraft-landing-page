@@ -35,7 +35,7 @@ export function SiteFooter() {
             </p>
             <a
               href={`mailto:${site.email}`}
-              className="hud-label mt-6 inline-block text-faint hover:text-ink"
+              className="hud-label mt-6 inline-block text-muted hover:text-ink"
             >
               {site.email}
             </a>
@@ -47,7 +47,7 @@ export function SiteFooter() {
               aria-label={group.label}
               className="bg-bg p-6 md:p-8"
             >
-              <p className="hud-label text-faint">{group.label}</p>
+              <p className="hud-label text-muted">{group.label}</p>
               <ul className="mt-4 flex flex-col gap-2.5">
                 {group.links.map((link) => (
                   <li key={link.label}>
@@ -68,8 +68,8 @@ export function SiteFooter() {
         </div>
 
         <div className="flex flex-col gap-2 border-t border-line px-6 py-4 md:flex-row md:items-center md:justify-between md:px-10">
-          <p className="hud-label text-faint">{footer.copyright}</p>
-          <p className="hud-label text-faint">{footer.maker}</p>
+          <p className="hud-label text-muted">{footer.copyright}</p>
+          <p className="hud-label text-muted">{footer.maker}</p>
         </div>
       </div>
     </footer>
