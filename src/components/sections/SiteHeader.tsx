@@ -34,7 +34,7 @@ export function SiteHeader() {
             {/* The original's logo is a plain image, and the themed filter
                 needs the element itself. */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img alt="ArtCraft" src={site.logo} className="themed-logo h-6 w-auto" />
+            <img alt={site.logoAlt} src={site.logo} className="themed-logo h-6 w-auto" />
           </a>
           <nav aria-label="Main" className="hidden min-w-0 items-stretch lg:flex">
             <ul className="flex h-full items-stretch">
