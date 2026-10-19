@@ -34,8 +34,8 @@ to claim:
 
 ```bash
 gh issue list --repo gerrcass/artcraft-landing-page --state open \
-  --json number,title,issue_dependencies_summary \
-  --jq '.[] | select(.issue_dependencies_summary.total_blocked_by == 0) | "#\(.number) \(.title)"'
+  --json number,title,blockedBy,parent \
+  --jq '.[] | select(.parent != null and .blockedBy.totalCount == 0) | "#\(.number) \(.title)"'
 ```
 
 Claim a ticket by assigning it to yourself, work it on its own branch, and close it with a
