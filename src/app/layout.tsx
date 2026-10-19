@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import type { ReactNode } from "react"
 
+import { Choreography } from "@/components/Choreography"
 import { site } from "@/data/site"
 
 import "./globals.css"
@@ -77,7 +78,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           crossOrigin="anonymous"
         />
       </head>
-      <body>{children}</body>
+      <body>
+        <Choreography />
+        {children}
+      </body>
     </html>
   )
 }
