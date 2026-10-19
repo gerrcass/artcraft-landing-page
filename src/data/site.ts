@@ -84,6 +84,8 @@ export const site = {
   email: "hello@storyteller.ai",
   tagline: "The open-source studio for controllable AI image and video.",
   logo: "/artcraft-icon.svg",
+  /** The logo's accessible name — the original's `alt` on the vendored mark. */
+  logoAlt: "ArtCraft",
   repository: "https://github.com/storytold/artcraft",
   app: "https://app.getartcraft.com/",
   discord: "https://discord.gg/artcraft",
