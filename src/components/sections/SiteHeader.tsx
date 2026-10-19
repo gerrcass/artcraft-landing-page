@@ -1,5 +1,6 @@
 import { NavDropdown } from "@/components/primitives/NavDropdown"
 import { ThemeToggle } from "@/components/primitives/ThemeToggle"
+import { MobileNav } from "@/components/sections/MobileNav"
 import { headerAside, headerNav, launchApp, site } from "@/data/site"
 import { currentPath, isCurrentPath } from "@/lib/nav"
 
@@ -139,6 +140,7 @@ export function SiteHeader() {
           <div className="flex items-stretch md:hidden">
             <ThemeToggle />
           </div>
+          <MobileNav />
         </div>
       </div>
     </nav>
