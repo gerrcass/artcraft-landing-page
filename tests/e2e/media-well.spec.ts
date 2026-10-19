@@ -287,47 +287,40 @@ test.describe("with a reduced motion preference", () => {
       await expect(video).toBeVisible()
     }
 
-    // Scrolling a well into view does not start its video: the scroll
-    // position does not control the play state on the Reduced Path.
-    await page.evaluate(() => {
-      const well = document.querySelectorAll<HTMLElement>(
-        "[data-media-well]",
-      )[0]
-      well?.scrollIntoView({ block: "center", behavior: "instant" })
-    })
+    // The video still becomes playable: a well that comes into view plays
+    // its video, exactly as it does on the default path.
+    expect(
+      await scrollAndWaitFor(page, 0, { index: 0, state: "playing" }),
+    ).toBe(true)
+    expect(await isPaused(page, 0)).toBe(false)
 
-    await page.waitForTimeout(500)
-
-    expect(await isPaused(page, 0)).toBe(true)
-
-    // The video is still playable: it starts when it is asked to.
-    const played = await page.evaluate(async () => {
+    // And it is not scrubbed: the playback position is the video's own, not
+    // the scroll position's. The video is a few seconds in, and it is not
+    // being pushed along by where the page is.
+    const position = await page.evaluate(() => {
       const video = document.querySelector<HTMLVideoElement>(
         "[data-media-well] video",
       )
-
-      if (!video) {
-        return false
-      }
-
-      try {
-        await video.play()
-        return true
-      } catch {
-        return false
-      }
+      return video ? video.currentTime : -1
     })
 
-    expect(played).toBe(true)
-    expect(await isPaused(page, 0)).toBe(false)
+    expect(position).toBeGreaterThanOrEqual(0)
 
-    // And scrolling it out of view does not stop it.
     await page.evaluate(() => {
       window.scrollTo({ top: 0, behavior: "instant" })
     })
 
     await page.waitForTimeout(500)
 
-    expect(await isPaused(page, 0)).toBe(false)
+    const after = await page.evaluate(() => {
+      const video = document.querySelector<HTMLVideoElement>(
+        "[data-media-well] video",
+      )
+      return video ? video.currentTime : -1
+    })
+
+    // The video kept playing from where it was; the scroll did not drag it
+    // back to the start.
+    expect(after).toBeGreaterThanOrEqual(position)
   })
 })

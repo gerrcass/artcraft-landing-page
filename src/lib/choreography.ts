@@ -105,15 +105,6 @@ export type Observation = {
    * cannot be tied to a view timeline.
    */
   standsDownWhenCssDrives?: boolean
-  /**
-   * Whether this kind is left alone on the Reduced Path.
-   *
-   * A kind that ties a behaviour to the scroll position stands down when the
-   * visitor has asked for reduced motion: the same content, with the motion
-   * taken out. The Media Well is such a kind — its videos are the visitor's
-   * to start, and where they are on the page does not decide.
-   */
-  standsDownWhenReducedMotion?: boolean
   /** What happens to the element when it enters the viewport. */
   onEnter: (element: Element) => void
   /** What happens to the element when it leaves the viewport again. */
@@ -179,19 +170,10 @@ export const OBSERVATIONS: Observation[] = [
   {
     kind: "media-well",
     selector: MEDIA_WELL_SELECTOR,
-    standsDownWhenReducedMotion: true,
     onEnter: playVideo,
     onLeave: pauseVideo,
   },
 ]
-
-/**
- * The media query that decides whether the page is on the Reduced Path.
- *
- * It is the same query the stylesheet uses, so the CSS and the observer agree
- * about which path the visitor is on.
- */
-const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)"
 
 /**
  * Whether the browser can drive the Reveal from a scroll position itself.
@@ -207,36 +189,18 @@ export function supportsScrollDrivenAnimations(): boolean {
   return CSS.supports("animation-timeline: view()")
 }
 
-/**
- * Whether the visitor has asked for reduced motion.
- *
- * The observer reads the same preference the stylesheet reads, so that the
- * two never disagree about which path the page is on.
- */
-export function prefersReducedMotion(): boolean {
-  if (typeof window === "undefined" || typeof window.matchMedia !== "function") {
-    return false
-  }
-
-  return window.matchMedia(REDUCED_MOTION_QUERY).matches
-}
-
 /** The observations the observer acts on right now. */
 function activeObservations(): Observation[] {
   const cssDrives = supportsScrollDrivenAnimations()
-  const reducedMotion = prefersReducedMotion()
 
   return OBSERVATIONS.filter(
-    (observation) =>
-      !(observation.standsDownWhenCssDrives && cssDrives) &&
-      !(observation.standsDownWhenReducedMotion && reducedMotion),
+    (observation) => !(observation.standsDownWhenCssDrives && cssDrives),
   )
 }
 
 /** The observer, the mutation observer, and what they are watching. */
 let observer: IntersectionObserver | null = null
 let mutationObserver: MutationObserver | null = null
-let motionQuery: MediaQueryList | null = null
 const watched = new Map<Element, Observation>()
 let holders = 0
 
@@ -367,15 +331,6 @@ function handleMutations(records: MutationRecord[]): void {
  * class is on the element, not in the observer's bookkeeping — so the page
  * does not flash when the preference changes.
  */
-function handleMotionChange(): void {
-  if (!observer) {
-    return
-  }
-
-  stop()
-  start()
-}
-
 /** Starts the choreography: one observer, watching the whole document. */
 function start(): void {
   if (observer) {
@@ -394,8 +349,6 @@ function start(): void {
     subtree: true,
   })
 
-  motionQuery = window.matchMedia(REDUCED_MOTION_QUERY)
-  motionQuery.addEventListener("change", handleMotionChange)
 }
 
 /** Stops the choreography and gives back everything it holds. */
@@ -405,9 +358,6 @@ function stop(): void {
 
   mutationObserver?.disconnect()
   mutationObserver = null
-
-  motionQuery?.removeEventListener("change", handleMotionChange)
-  motionQuery = null
 
   watched.clear()
   document.documentElement.classList.remove(RUNNING_CLASS)

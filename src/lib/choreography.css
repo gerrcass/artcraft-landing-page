@@ -179,10 +179,11 @@
     transition: none !important;
   }
 
-  /* The demo videos are present and playable, but they are not scrubbed.
-     This is the half of that rule that is CSS; the other half is the
-     observer, which stands down for the Media Well on this path, so where a
-     video is on the page does not decide whether it plays. */
+  /* The demo videos are present and playable, but they are not scrubbed:
+     nothing here drives a video's playback position from the scroll. The
+     observer still starts a video when its well comes into view, because the
+     content of a demo is the demo — the Reduced Path takes the page's own
+     motion out, not the product's. */
   video {
     animation: none !important;
   }
