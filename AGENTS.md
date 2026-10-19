@@ -29,18 +29,25 @@ tickets are issues #3 through #17.
 ## Working a ticket
 
 Tickets are GitHub issues, each a tracer bullet with its blocking edges. The **frontier**
-is the set of open tickets whose blockers are all closed, and it is the only work available
-to claim:
+is the set of open tickets whose blockers are all closed and which nobody has claimed, and
+it is the only work available to take:
 
 ```bash
 gh issue list --repo gerrcass/artcraft-landing-page --state open \
-  --json number,title,blockedBy,parent \
-  --jq '.[] | select(.parent != null and .blockedBy.totalCount == 0) | "#\(.number) \(.title)"'
+  --json number,title,blockedBy,parent,labels \
+  --jq '.[] | select(.parent != null and .blockedBy.totalCount == 0)
+         | select([.labels[].name] | index("in-progress") | not)
+         | "#\(.number) \(.title)"'
 ```
 
-Claim a ticket by assigning it to yourself, work it on its own branch, and close it with a
-comment naming what changed. See `docs/agents/issue-tracker.md` for the tracker's
-conventions and `docs/agents/triage-labels.md` for the label vocabulary.
+Claim a ticket by assigning it to yourself and applying the `in-progress` label, work it on
+its own branch, and close it by removing `in-progress`, commenting with what changed, then
+closing the issue. The label is the signal: an open ticket carrying `in-progress` is being
+worked, and an open ticket without it is free to take. Never take a ticket that already
+carries the label.
+
+See `docs/agents/issue-tracker.md` for the tracker's conventions and
+`docs/agents/triage-labels.md` for the label vocabulary.
 
 **One seam.** Everything is verified through the rendered page, at a given viewport width,
 theme, and scroll position. Assert on what a visitor perceives — text, roles, visibility,
