@@ -1,0 +1,277 @@
+{
+  "title": "Vendored media",
+  "note": "Every asset the landing page needs is served by the app itself, so the clone renders identically offline and does not depend on a third-party CDN staying up. The media belongs to ArtCraft (https://getartcraft.com) and not to this project: it is demonstration content for a local clone, and it is not something the project ships. It is vendored rather than hotlinked so that the page can be diffed against the original; the decision is recorded in ADR-0002, docs/adr/0002-vendor-original-media-and-copy.md.",
+  "sourceOfTruth": "docs/agents/reference-notes.md, section 8",
+  "assets": [
+    {
+      "path": "/fonts/archivo-latin.woff2",
+      "kind": "font",
+      "name": "Archivo, the display face (latin subset, variable)",
+      "source": "https://getartcraft.com/_next/static/media/21ca8f3f56c22ca2-s.p.1cp9-4nby68jc.woff2",
+      "role": "The display face. The section headings, the Feature Card and Ownership Card titles, and the Wordmark above the hero headline.",
+      "family": "Archivo",
+      "weights": "100 900",
+      "style": "normal",
+      "axes": {
+        "wght": "100 900",
+        "wdth": "62% 125%"
+      },
+      "note": "One variable file covers both the display face's heading weight (620) and its heavier Wordmark weight (750).",
+      "bytes": 90096
+    },
+    {
+      "path": "/fonts/inter-latin.woff2",
+      "kind": "font",
+      "name": "Inter, the body face (latin subset, variable)",
+      "source": "https://getartcraft.com/_next/static/media/83afe278b6a6bb3c-s.p.2bn3s6zvc0dyp.woff2",
+      "role": "The body face. The paragraphs, the navigation, and the footer.",
+      "family": "Inter",
+      "weights": "100 900",
+      "style": "normal",
+      "axes": {
+        "wght": "100 900"
+      },
+      "bytes": 48432
+    },
+    {
+      "path": "/fonts/geist-mono-latin.woff2",
+      "kind": "font",
+      "name": "Geist Mono, the monospace face (latin subset, variable)",
+      "source": "https://getartcraft.com/_next/static/media/797e433ab948586e-s.p.0r6juujl39pe6.woff2",
+      "role": "The monospace face. The HUD Label, the call-to-action buttons, and the footer's micro-type.",
+      "family": "Geist Mono",
+      "weights": "100 900",
+      "style": "normal",
+      "axes": {
+        "wght": "100 900"
+      },
+      "bytes": 23108
+    },
+    {
+      "path": "/fonts/instrument-serif-italic-latin.woff2",
+      "kind": "font",
+      "name": "Instrument Serif, the italic serif (latin subset)",
+      "source": "https://getartcraft.com/_next/static/media/7ebf22b5a21034f8-s.p.3j3877k49yy0l.woff2",
+      "role": "The Serif Accent: the single italic word inside each headline, such as \"for artists\", \"renting\", and \"with\".",
+      "family": "Instrument Serif",
+      "weights": "400",
+      "style": "italic",
+      "bytes": 15684
+    },
+    {
+      "path": "/videos/features/WorldLabs_Demo_2.webm",
+      "kind": "video",
+      "name": "The Image to Location demo video",
+      "source": "https://getartcraft.com/videos/features/WorldLabs_Demo_2.webm",
+      "role": "The Media Well of Feature Card 01, Image to Location.",
+      "durationSeconds": 8.1,
+      "bytes": 2539469
+    },
+    {
+      "path": "/videos/features/Panel.webm",
+      "kind": "video",
+      "name": "The Build scenes with depth demo video",
+      "source": "https://getartcraft.com/videos/features/Panel.webm",
+      "role": "The Media Well of Feature Card 02, Build scenes with depth.",
+      "durationSeconds": 7.966,
+      "bytes": 3695761
+    },
+    {
+      "path": "/videos/features/Editor.webm",
+      "kind": "video",
+      "name": "The Precise layered control demo video",
+      "source": "https://getartcraft.com/videos/features/Editor.webm",
+      "role": "The Media Well of Feature Card 03, Precise layered control.",
+      "durationSeconds": 7.966,
+      "bytes": 1610296
+    },
+    {
+      "path": "/videos/features/Make_3D.webm",
+      "kind": "video",
+      "name": "The Image to 3D Mesh demo video",
+      "source": "https://getartcraft.com/videos/features/Make_3D.webm",
+      "role": "The Media Well of Feature Card 04, Image to 3D Mesh.",
+      "durationSeconds": 6.966,
+      "bytes": 3068827
+    },
+    {
+      "path": "/videos/features/Mixed.webm",
+      "kind": "video",
+      "name": "The Mix every kind of asset demo video",
+      "source": "https://getartcraft.com/videos/features/Mixed.webm",
+      "role": "The Media Well of Feature Card 05, Mix every kind of asset.",
+      "durationSeconds": 8.528,
+      "bytes": 4276120
+    },
+    {
+      "path": "/videos/features/Character-Pose.webm",
+      "kind": "video",
+      "name": "The Character Posing demo video",
+      "source": "https://getartcraft.com/videos/features/Character-Pose.webm",
+      "role": "The Media Well of Feature Card 06, Character Posing.",
+      "durationSeconds": 8.818,
+      "bytes": 2518751
+    },
+    {
+      "path": "/videos/features/Background.webm",
+      "kind": "video",
+      "name": "The Background Removal demo video",
+      "source": "https://getartcraft.com/videos/features/Background.webm",
+      "role": "The Media Well of Feature Card 07, Background Removal.",
+      "durationSeconds": 6.933,
+      "bytes": 1205288
+    },
+    {
+      "path": "/images/films/made-with-artcraft-1.jpg",
+      "kind": "poster",
+      "name": "The poster for the community film Made with ArtCraft #1",
+      "source": "https://i.ytimg.com/vi/HDdsKJl92H4/hqdefault.jpg",
+      "role": "The Film Tile of the Proof section, film 01. The play button links to the film on YouTube.",
+      "bytes": 12988
+    },
+    {
+      "path": "/images/films/made-with-artcraft-2.jpg",
+      "kind": "poster",
+      "name": "The poster for the community film Made with ArtCraft #2",
+      "source": "https://i.ytimg.com/vi/oqoCWdOwr2U/hqdefault.jpg",
+      "role": "The Film Tile of the Proof section, film 02. The play button links to the film on YouTube.",
+      "bytes": 37297
+    },
+    {
+      "path": "/images/films/made-with-artcraft-3.jpg",
+      "kind": "poster",
+      "name": "The poster for the community film Made with ArtCraft #3",
+      "source": "https://i.ytimg.com/vi/H4NFXGMuwpY/hqdefault.jpg",
+      "role": "The Film Tile of the Proof section, film 03. The play button links to the film on YouTube.",
+      "bytes": 28375
+    },
+    {
+      "path": "/artcraft-icon.svg",
+      "kind": "logo",
+      "name": "The ArtCraft mark",
+      "source": "https://getartcraft.com/artcraft-icon.svg",
+      "role": "The logo in the header and in the footer, and the leading A of the Wordmark.",
+      "bytes": 483
+    },
+    {
+      "path": "/images/orbit/tile-01.jpg",
+      "kind": "still",
+      "name": "Orbit tile 01",
+      "source": "https://getartcraft.com/videos/features/WorldLabs_Demo_2.webm",
+      "role": "One of the Orbit's floating photo tiles behind the hero.",
+      "derivedFrom": {
+        "path": "/videos/features/WorldLabs_Demo_2.webm",
+        "timestampSeconds": 2
+      },
+      "bytes": 22441
+    },
+    {
+      "path": "/images/orbit/tile-02.jpg",
+      "kind": "still",
+      "name": "Orbit tile 02",
+      "source": "https://getartcraft.com/videos/features/Panel.webm",
+      "role": "One of the Orbit's floating photo tiles behind the hero.",
+      "derivedFrom": {
+        "path": "/videos/features/Panel.webm",
+        "timestampSeconds": 3.5
+      },
+      "bytes": 114627
+    },
+    {
+      "path": "/images/orbit/tile-03.jpg",
+      "kind": "still",
+      "name": "Orbit tile 03",
+      "source": "https://getartcraft.com/videos/features/Editor.webm",
+      "role": "One of the Orbit's floating photo tiles behind the hero.",
+      "derivedFrom": {
+        "path": "/videos/features/Editor.webm",
+        "timestampSeconds": 1.1
+      },
+      "bytes": 99691
+    },
+    {
+      "path": "/images/orbit/tile-04.jpg",
+      "kind": "still",
+      "name": "Orbit tile 04",
+      "source": "https://getartcraft.com/videos/features/Make_3D.webm",
+      "role": "One of the Orbit's floating photo tiles behind the hero.",
+      "derivedFrom": {
+        "path": "/videos/features/Make_3D.webm",
+        "timestampSeconds": 3.6
+      },
+      "bytes": 79989
+    },
+    {
+      "path": "/images/orbit/tile-05.jpg",
+      "kind": "still",
+      "name": "Orbit tile 05",
+      "source": "https://getartcraft.com/videos/features/Mixed.webm",
+      "role": "One of the Orbit's floating photo tiles behind the hero.",
+      "derivedFrom": {
+        "path": "/videos/features/Mixed.webm",
+        "timestampSeconds": 5.4
+      },
+      "bytes": 68277
+    },
+    {
+      "path": "/images/orbit/tile-06.jpg",
+      "kind": "still",
+      "name": "Orbit tile 06",
+      "source": "https://getartcraft.com/videos/features/Character-Pose.webm",
+      "role": "One of the Orbit's floating photo tiles behind the hero.",
+      "derivedFrom": {
+        "path": "/videos/features/Character-Pose.webm",
+        "timestampSeconds": 2.5
+      },
+      "bytes": 34898
+    },
+    {
+      "path": "/images/orbit/tile-07.jpg",
+      "kind": "still",
+      "name": "Orbit tile 07",
+      "source": "https://getartcraft.com/videos/features/Background.webm",
+      "role": "One of the Orbit's floating photo tiles behind the hero.",
+      "derivedFrom": {
+        "path": "/videos/features/Background.webm",
+        "timestampSeconds": 1
+      },
+      "bytes": 86921
+    },
+    {
+      "path": "/images/orbit/tile-08.jpg",
+      "kind": "still",
+      "name": "Orbit tile 08",
+      "source": "https://getartcraft.com/videos/features/Panel.webm",
+      "role": "One of the Orbit's floating photo tiles behind the hero.",
+      "derivedFrom": {
+        "path": "/videos/features/Panel.webm",
+        "timestampSeconds": 6.5
+      },
+      "bytes": 81334
+    },
+    {
+      "path": "/images/orbit/tile-09.jpg",
+      "kind": "still",
+      "name": "Orbit tile 09",
+      "source": "https://getartcraft.com/videos/features/Editor.webm",
+      "role": "One of the Orbit's floating photo tiles behind the hero.",
+      "derivedFrom": {
+        "path": "/videos/features/Editor.webm",
+        "timestampSeconds": 5
+      },
+      "bytes": 72552
+    },
+    {
+      "path": "/images/orbit/tile-10.jpg",
+      "kind": "still",
+      "name": "Orbit tile 10",
+      "source": "https://getartcraft.com/videos/features/Mixed.webm",
+      "role": "One of the Orbit's floating photo tiles behind the hero.",
+      "derivedFrom": {
+        "path": "/videos/features/Mixed.webm",
+        "timestampSeconds": 7
+      },
+      "bytes": 65310
+    }
+  ]
+}
