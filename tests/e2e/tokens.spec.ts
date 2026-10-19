@@ -20,6 +20,9 @@ const REQUIRED_TOKENS = [
   "--accent-ink",
   "--invert-bg",
   "--invert-fg",
+  "--orbit-arc-1",
+  "--orbit-arc-2",
+  "--orbit-arc-3",
 ]
 
 /** The tokens that carry the same value in both themes. */
@@ -84,6 +87,24 @@ function sourceFiles(directory: string): string[] {
   return files
 }
 
+/**
+ * Every source file the token layer's rule reaches: everything under `src/`,
+ * plus the source files at the repository's root, so a stray stylesheet or
+ * script outside `src/` cannot smuggle a literal colour in either.
+ */
+function guardedFiles(rootDir: string): string[] {
+  const files = sourceFiles(path.join(rootDir, "src"))
+
+  for (const entry of readdirSync(rootDir)) {
+    const entryPath = path.join(rootDir, entry)
+    if (statSync(entryPath).isFile() && /\.(ts|tsx|css|js|mjs)$/.test(entry)) {
+      files.push(entryPath)
+    }
+  }
+
+  return files
+}
+
 test("both themes declare exactly the same tokens", async ({}, testInfo) => {
   const css = readTokenLayer(repoRoot(testInfo))
 
@@ -136,17 +157,23 @@ test("the token layer is the only place a colour or font value is written", asyn
   const tokenLayer = path.resolve(path.join(rootDir, TOKEN_LAYER))
 
   const offenders: string[] = []
-  for (const file of sourceFiles(path.join(rootDir, "src"))) {
+  for (const file of guardedFiles(rootDir)) {
     if (path.resolve(file) === tokenLayer) {
       continue
     }
 
     const contents = readFileSync(file, "utf8")
+    const where = path.relative(rootDir, file)
+
     if (/#[0-9a-fA-F]{3,8}\b/.test(contents)) {
-      offenders.push(`${path.relative(rootDir, file)}: a hex colour`)
+      offenders.push(`${where}: a hex colour`)
     }
-    if (/font-family/.test(contents)) {
-      offenders.push(`${path.relative(rootDir, file)}: a font-family declaration`)
+
+    // A font family is allowed only if it is reached by a token.
+    for (const [, value] of contents.matchAll(/font-family\s*:\s*([^;]+);/g)) {
+      if (!/var\(--font-/.test(value)) {
+        offenders.push(`${where}: a font-family that is not a token`)
+      }
     }
   }
 

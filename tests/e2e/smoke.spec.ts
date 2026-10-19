@@ -1,11 +1,13 @@
-import { site } from "../../src/data/site"
+import { hero } from "@/data/site"
 
 import { expect, test } from "./fixtures"
 
-test("the page renders the heading", async ({ page, visit }) => {
+const headline = `${hero.headline.before} ${hero.headline.accent}`
+
+test("the page renders the hero headline", async ({ page, visit }) => {
   await visit({ theme: "light" })
 
-  await expect(page.getByRole("heading", { name: site.heading })).toBeVisible()
+  await expect(page.getByRole("heading", { level: 1, name: headline })).toBeVisible()
 })
 
 test("the page background is the light theme's background token", async ({
@@ -34,7 +36,7 @@ test("the page background follows the dark theme", async ({ page, visit }) => {
 test("the heading sits inside the Frame", async ({ page, visit }) => {
   await visit({ theme: "light" })
 
-  const frame = page.getByRole("heading", { name: site.heading }).locator("xpath=..")
+  const frame = page.getByRole("heading", { name: headline }).locator("xpath=..")
 
   const frameStyle = await frame.evaluate((element) => {
     const style = getComputedStyle(element)
@@ -56,7 +58,7 @@ test("the heading sits inside the Frame", async ({ page, visit }) => {
 test("the Frame's ticks are decorative", async ({ page, visit }) => {
   await visit({ theme: "light" })
 
-  const frame = page.getByRole("heading", { name: site.heading }).locator("xpath=..")
+  const frame = page.getByRole("heading", { name: headline }).locator("xpath=..")
 
   await expect(frame.locator('[aria-hidden="true"]')).toHaveCount(2)
 })
