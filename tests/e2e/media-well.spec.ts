@@ -228,6 +228,46 @@ test("a video that has never come into view is not fetched", async ({
   expect(requested()).toContain(videoEntries[0].video.src)
 })
 
+test("a Media Well that holds no video is left alone", async ({
+  page,
+  visit,
+}) => {
+  test.setTimeout(120_000)
+
+  await visit({ theme: "light" })
+
+  const errors: string[] = []
+  page.on("pageerror", (error) => errors.push(error.message))
+
+  // A well that holds no video at all. It is added after the choreography has
+  // started, so the observer finds it the way it finds a section that
+  // renders later.
+  await page.evaluate(() => {
+    const well = document.createElement("div")
+    well.setAttribute("data-media-well", "true")
+    well.style.height = "240px"
+    well.style.background = "currentColor"
+    document.body.append(well)
+  })
+
+  await page.evaluate(() => {
+    const wells = document.querySelectorAll("[data-media-well]")
+    wells[wells.length - 1].scrollIntoView({
+      block: "center",
+      behavior: "instant",
+    })
+  })
+
+  await page.waitForTimeout(500)
+
+  expect(errors).toEqual([])
+
+  // And the wells that do hold a video still play.
+  expect(
+    await scrollAndWaitFor(page, 0, { index: 0, state: "playing" }),
+  ).toBe(true)
+})
+
 test.describe("with a reduced motion preference", () => {
   test.use({ reducedMotion: "reduce" })
 
