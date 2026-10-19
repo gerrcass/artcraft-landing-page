@@ -179,12 +179,6 @@
     transition: none !important;
   }
 
-  /* The Marquee does not scroll. It is ticket #8's component; the rule
-     belongs to the Reduced Path, so it lives here. */
-  .marquee-track {
-    animation: none !important;
-  }
-
   /* The demo videos are present and playable, but they are not scrubbed.
      Ticket #15 owns the scrubbing; this is the half of it that is CSS. */
   video {
