@@ -2,6 +2,8 @@
 
 import { useCallback, useEffect, useSyncExternalStore } from "react"
 
+import { themeToggle } from "@/data/site"
+
 /**
  * The theme, in one place, so the header's toggle and the mobile drawer
  * (ticket #6) agree on what the current theme is.
@@ -18,10 +20,7 @@ export type ThemeName = "light" | "dark"
 export const THEME_STORAGE_KEY = "artcraft-theme"
 
 /** The toggle's accessible names, named for the theme each one switches to. */
-export const themeToggleLabel = {
-  toLight: "Switch to light theme",
-  toDark: "Switch to dark theme",
-} as const
+export const themeToggleLabel = themeToggle
 
 declare global {
   interface Window {

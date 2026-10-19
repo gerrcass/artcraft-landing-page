@@ -107,6 +107,12 @@ export const site = {
   discord: "https://discord.gg/artcraft",
 } as const;
 
+/** The theme toggle's accessible names, named for the theme each one switches to. */
+export const themeToggle = {
+  toLight: "Switch to light theme",
+  toDark: "Switch to dark theme",
+} as const;
+
 /** The primary navigation. A link with `children` opens a dropdown panel. */
 export type NavEntry = NavLink & { children?: NavLink[] };
 

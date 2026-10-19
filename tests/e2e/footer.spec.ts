@@ -163,6 +163,7 @@ test("the brand cell takes the double-width track at the large breakpoint", asyn
   await visit({ viewport: { width: 1024, height: 900 } })
 
   const brand = await page
+    .locator("footer")
     .getByRole("img", { name: "ArtCraft" })
     .locator("xpath=..")
     .boundingBox()

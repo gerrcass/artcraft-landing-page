@@ -215,15 +215,19 @@ test("the right side carries the pricing link, the Discord link, the theme toggl
   const pricing = aside("Pricing")
   const discord = aside("Join the ArtCraft Discord")
 
+  // The footer carries a pricing link and a call to action of its own, so the
+  // header's are looked for inside the header.
+  const header = page.locator("#site-nav")
+
   await expect(
-    page.getByRole("link", { name: pricing.label, exact: true }),
+    header.getByRole("link", { name: pricing.label, exact: true }),
   ).toHaveAttribute("href", pricing.href)
   await expect(
-    page.getByRole("link", { name: discord.label, exact: true }),
+    header.getByRole("link", { name: discord.label, exact: true }),
   ).toHaveAttribute("href", discord.href)
   await expect(themeToggle(page)).toBeVisible()
   await expect(
-    page.getByRole("link", { name: launchApp.label, exact: true }),
+    header.getByRole("link", { name: launchApp.label, exact: true }),
   ).toHaveAttribute("href", launchApp.href)
 })
 
@@ -233,12 +237,18 @@ test("below the wide breakpoint the header carries the theme toggle alone", asyn
 }) => {
   await visit({ viewport: viewports.mobile })
 
+  const header = page.locator("#site-nav")
+
   await expect(themeToggle(page)).toBeVisible()
   await expect(
-    page.getByRole("link", { name: launchApp.label, exact: true }),
+    header.getByRole("link", { name: launchApp.label, exact: true, includeHidden: true }),
   ).toBeHidden()
   await expect(
-    page.getByRole("link", { name: aside("Pricing").label, exact: true }),
+    header.getByRole("link", {
+      name: aside("Pricing").label,
+      exact: true,
+      includeHidden: true,
+    }),
   ).toBeHidden()
 })
 
