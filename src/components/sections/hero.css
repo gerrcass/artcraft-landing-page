@@ -1,0 +1,52 @@
+/* ---------------------------------------------------------------------------
+ * The hero's Wordmark.
+ *
+ * The Wordmark is set in the display face at the Wordmark weight, stretched
+ * wide, and sized in container-query units against its own container, so that
+ * it scales with the viewport instead of stepping at breakpoints.
+ *
+ * The values here are the original's: the same registration cross the Frame
+ * carries, the same halo of background colour that separates the letters from
+ * the Orbit's tiles, and the same soft shadow under the drawn A.
+ * ------------------------------------------------------------------------- */
+
+/* The halo of background colour behind the Wordmark. */
+.hero-glow {
+  background: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--bg) 78%, transparent),
+    transparent
+  );
+}
+
+/* The frosted panel that softens the Orbit's tiles behind the Wordmark. */
+.hero-frost {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  mask-image: radial-gradient(closest-side, black 45%, transparent 100%);
+  -webkit-mask-image: radial-gradient(closest-side, black 45%, transparent 100%);
+}
+
+/* Each letter of the Wordmark. */
+.wm-letter {
+  text-shadow:
+    0 0 0.6vw color-mix(in srgb, var(--bg) 92%, transparent),
+    0 0.25vw 2.4vw color-mix(in srgb, var(--bg) 78%, transparent),
+    0 0.4vw 5vw color-mix(in srgb, var(--bg) 55%, transparent);
+  will-change: transform, opacity;
+}
+
+/* The leading A, which is drawn from the vendored logo rather than set. */
+.wm-letter--mark {
+  padding-right: 0.05em;
+}
+
+.wm-letter--mark svg {
+  display: inline-block;
+  width: 0.8352615384615385em;
+  height: 0.7em;
+  vertical-align: -0.006em;
+  filter:
+    drop-shadow(0 0 0.3vw color-mix(in srgb, var(--bg) 85%, transparent))
+    drop-shadow(0 0.2vw 1.6vw color-mix(in srgb, var(--bg) 60%, transparent));
+}
