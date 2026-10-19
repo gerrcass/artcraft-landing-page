@@ -326,6 +326,15 @@ export const proof = {
     accent: "with",
     after: "ArtCraft.",
   } satisfies Headline,
+  /** The play affordance's own copy: the chip's label, and the control's name. */
+  play: {
+    label: "Play",
+    /**
+     * The accessible name of a play control: this prefix, then the film's
+     * title — "Play video: Made with ArtCraft #1".
+     */
+    namePrefix: "Play video:",
+  },
   entries: [
     {
       label: "Community film",

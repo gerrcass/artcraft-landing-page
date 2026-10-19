@@ -265,12 +265,22 @@ test("the grid's cells are separated by 1px rules", async ({ page, visit }) => {
   expect(style.columnGap).toBe("1px")
   expect(style.background).toBe(await tokenColor(page, "--line"))
 
-  // And it is a real rule: two cells side by side are one pixel apart, and
-  // two cells one row apart are one pixel apart.
+  // And it is a real rule: two cells side by side are one pixel apart.
   const boxes = await cellBoxes(page)
 
   expect(boxes[1].left - boxes[0].right).toBeCloseTo(1, 0)
-  expect(boxes[2].top - boxes[1].bottom).toBeCloseTo(1, 0)
+
+  // The cells are Revealed as they come into view, and a cell that has not
+  // arrived yet sits below where the grid puts it — so the rule between two
+  // rows is read on the Reduced Path, where the same grid is shown with the
+  // entrance taken out of it. The original reveals its cards the same way,
+  // one at a time, and the rule between the rows is a hairline there too.
+  await page.emulateMedia({ reducedMotion: "reduce" })
+
+  const settled = await cellBoxes(page)
+
+  expect(settled[1].left - settled[0].right).toBeCloseTo(1, 0)
+  expect(settled[2].top - settled[1].bottom).toBeCloseTo(1, 0)
 })
 
 test("the grid is one column on a phone and two from the medium breakpoint", async ({
