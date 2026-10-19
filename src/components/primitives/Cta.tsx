@@ -25,11 +25,13 @@ export function Cta({
   children: ReactNode
 }) {
   const classes = [
-    "inline-flex w-fit items-center justify-center gap-2 rounded-none font-mono font-bold uppercase tracking-[0.12em] whitespace-nowrap duration-150",
+    "inline-flex w-fit items-center justify-center rounded-none font-mono font-bold uppercase tracking-[0.12em] whitespace-nowrap duration-150",
     variant === "primary"
       ? "bg-invert-bg text-invert-fg transition-opacity hover:opacity-80"
       : "invert-block border border-line-strong bg-bg text-ink hover:border-transparent",
-    size === "md" ? "h-12 px-6 text-[11px]" : "px-3 py-1.5 text-[11px] font-medium",
+    size === "md"
+      ? "h-12 gap-2 px-6 text-[11px]"
+      : "gap-1.5 px-3 py-1.5 text-[11px] font-medium",
     className,
   ]
     .filter(Boolean)
