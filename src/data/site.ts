@@ -49,19 +49,28 @@ export type Headline = {
 };
 
 /**
- * A heading's parts, as plain text.
+ * A heading's tail: the part that follows the Serif Accent.
  *
- * The parts are joined the way they read: a space between words, but no space
+ * The tail is joined the way it reads: a space between words, but no space
  * before punctuation — "Start crafting." is not "Start crafting .".
  */
-export function headlineText({ before, accent, after }: Headline): string {
-  const tail = after
-    ? /^[\p{P}]/u.test(after)
-      ? after
-      : ` ${after}`
-    : ""
+export function headlineTail({ after }: { after: string }): string {
+  if (!after) {
+    return ""
+  }
 
-  return `${before} ${accent}${tail}`
+  return /^[\p{P}]/u.test(after) ? after : ` ${after}`
+}
+
+/**
+ * A heading's parts, as plain text.
+ */
+export function headlineText({
+  before,
+  accent,
+  after,
+}: Headline): string {
+  return `${before} ${accent}${headlineTail({ after })}`
 }
 
 /** The numbered strip that opens a section. */
@@ -148,18 +157,28 @@ export const themeToggle = {
 } as const;
 
 /**
- * The mobile drawer's accessible names.
+ * The Drawer's accessible names.
  *
  * The menu button carries the original's name; the drawer names itself, and
  * its close button says what it closes.
  */
-export const mobileMenu = {
+export const drawer = {
   /** The menu button's accessible name. */
   button: "Open main menu",
   /** The drawer's accessible name. */
   label: "Main menu",
   /** The drawer's close button's accessible name. */
   close: "Close main menu",
+} as const;
+
+/**
+ * The primary navigation's accessible name.
+ *
+ * It names the navigation landmark in the header, and it is the same on every
+ * width: the drawer holds the same destinations under the same name.
+ */
+export const mainNav = {
+  label: "Main",
 } as const;
 
 /**

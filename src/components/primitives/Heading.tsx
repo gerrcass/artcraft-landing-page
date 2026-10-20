@@ -1,4 +1,4 @@
-import { headlineText, type Headline } from "@/data/site"
+import { headlineTail, type Headline } from "@/data/site"
 
 /**
  * A heading with a Serif Accent.
@@ -22,11 +22,7 @@ export function Heading({
   reveal?: boolean
   className?: string
 }) {
-  const tail = headline.after
-    ? /^[\p{P}]/u.test(headline.after)
-      ? headline.after
-      : ` ${headline.after}`
-    : ""
+  const tail = headlineTail(headline)
 
   return (
     <Tag className={className} {...(reveal ? { "data-reveal": "true" } : {})}>
@@ -44,6 +40,3 @@ export function Heading({
     </Tag>
   )
 }
-
-/** The heading's plain text, for a test or an accessible name. */
-export { headlineText }

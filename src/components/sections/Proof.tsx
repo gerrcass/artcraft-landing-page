@@ -93,7 +93,9 @@ export function Proof() {
                     loading="lazy"
                     className="absolute inset-0 h-full w-full object-cover"
                   />
-                  <span className="absolute inset-0 bg-black/20 transition-colors group-hover:bg-black/10" />
+                  {/* The scrim over the poster: the token's colour, at half
+                      its strength on hover. */}
+                  <span className="absolute inset-0 bg-scrim transition-opacity group-hover:opacity-50" />
                   <span className="hud-label absolute bottom-3 left-3 flex items-center gap-1.5 bg-invert-bg px-3 py-1.5 font-bold text-invert-fg">
                     <PlayMark />
                     {proof.play.label}

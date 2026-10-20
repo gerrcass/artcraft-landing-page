@@ -1,5 +1,7 @@
 import type { ReactNode } from "react"
 
+import { cx } from "@/lib/cx"
+
 /**
  * The Frame: the 1280px-max-width container with hairline left and right
  * borders that every page section sits inside. The page is full-bleed; the
@@ -15,12 +17,10 @@ export function Frame({
   children: ReactNode
   className?: string
 }) {
-  const classes = [
+  const classes = cx(
     "relative mx-auto max-w-[1280px] border-x border-line",
     className,
-  ]
-    .filter(Boolean)
-    .join(" ")
+  )
 
   return (
     <div className={classes}>

@@ -25,8 +25,14 @@ const REQUIRED_TOKENS = [
   "--orbit-arc-3",
 ]
 
-/** The tokens that carry the same value in both themes. */
-const SHARED_TOKENS = ["--accent"]
+/**
+ * The tokens that carry the same value in both themes.
+ *
+ * The scrim over a Film Tile's poster is the original's scrim in both themes:
+ * it is the same black at the same strength over the poster, so the token
+ * does not change with the theme.
+ */
+const SHARED_TOKENS = ["--accent", "--scrim"]
 
 const LIGHT_BLOCK = /:root\s*\{/
 const DARK_ATTRIBUTE_BLOCK = /:root\[data-theme="dark"\]\s*\{/

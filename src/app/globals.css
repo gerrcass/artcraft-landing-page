@@ -66,6 +66,9 @@
   --invert-fg: #f2f1ee;
   --danger: #b3261e;
   --scanline: #10101408;
+  /* The scrim over a Film Tile's poster. The original's scrim is the same in
+     both themes, so this token's value does not change either. */
+  --scrim: #00000033;
   /* The hero Orbit's heavy arcs read as grey in the light theme. */
   --orbit-arc-1: #1010148c;
   --orbit-arc-2: #1010148c;
@@ -89,6 +92,9 @@
   --invert-fg: #0b0b0c;
   --danger: #ff6259;
   --scanline: #ffffff06;
+  /* The scrim over a Film Tile's poster. The original's scrim is the same in
+     both themes, so this token's value does not change either. */
+  --scrim: #00000033;
   /* In the dark theme the arcs carry colour. */
   --orbit-arc-1: #356800;
   --orbit-arc-2: #1e286e;
@@ -113,11 +119,32 @@
     --invert-fg: #0b0b0c;
     --danger: #ff6259;
     --scanline: #ffffff06;
+    --scrim: #00000033;
     --orbit-arc-1: #356800;
     --orbit-arc-2: #1e286e;
     --orbit-arc-3: #8c0589;
     color-scheme: dark;
   }
+}
+
+/* ---------------------------------------------------------------------------
+ * The motion tokens.
+ *
+ * The Reveal's offset, duration and easing, and the drawing marks' duration.
+ * They are the same in both themes, and they are not colours, so they live in
+ * their own block rather than in the light theme's — the token parity test
+ * compares the theme blocks with each other.
+ * ------------------------------------------------------------------------- */
+
+:root {
+  /* How far a Reveal sits below where it will end up. */
+  --reveal-offset: 14px;
+  /* How long a Reveal takes to arrive. */
+  --reveal-duration: 700ms;
+  /* How a Reveal eases into place. */
+  --reveal-easing: cubic-bezier(0.22, 1, 0.36, 1);
+  /* How long a drawing mark takes to draw itself in. */
+  --draw-duration: 600ms;
 }
 
 /* ---------------------------------------------------------------------------
@@ -145,6 +172,7 @@
   --color-invert-fg: var(--invert-fg);
   --color-danger: var(--danger);
   --color-scanline: var(--scanline);
+  --color-scrim: var(--scrim);
   --color-orbit-arc-1: var(--orbit-arc-1);
   --color-orbit-arc-2: var(--orbit-arc-2);
   --color-orbit-arc-3: var(--orbit-arc-3);
@@ -255,6 +283,12 @@
   initial-value: #10101408;
 }
 
+@property --scrim {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #00000033;
+}
+
 @property --orbit-arc-1 {
   syntax: "<color>";
   inherits: true;
@@ -291,6 +325,7 @@ html.theme-anim {
     --invert-fg .4s,
     --danger .4s,
     --scanline .4s,
+    --scrim .4s,
     --orbit-arc-1 .4s,
     --orbit-arc-2 .4s,
     --orbit-arc-3 .4s;
@@ -333,6 +368,17 @@ body {
 .font-display {
   font-weight: 620;
   font-stretch: 118%;
+}
+
+/*
+ * The Wordmark: the display face at the weight and the stretch that reproduce
+ * the original's wide logotype. The `font-display` utility carries the
+ * headings' weight and stretch, not the Wordmark's.
+ */
+.wordmark {
+  font-family: var(--font-display);
+  font-weight: 750;
+  font-stretch: 125%;
 }
 
 .hud-label {

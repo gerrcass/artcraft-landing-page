@@ -91,8 +91,6 @@ export const OBSERVER_OPTIONS: IntersectionObserverInit = {
  * `onLeave` is for.
  */
 export type Observation = {
-  /** A short name for the kind, used in the comments and in the log. */
-  kind: string
   /** The elements of this kind, as a CSS selector. */
   selector: string
   /**
@@ -157,18 +155,15 @@ function pauseVideo(element: Element): void {
 /** The kinds of observation the page makes. */
 export const OBSERVATIONS: Observation[] = [
   {
-    kind: "reveal",
     selector: REVEAL_SELECTOR,
     standsDownWhenCssDrives: true,
     onEnter: reveal,
   },
   {
-    kind: "draw",
     selector: DRAW_SELECTOR,
     onEnter: reveal,
   },
   {
-    kind: "media-well",
     selector: MEDIA_WELL_SELECTOR,
     onEnter: playVideo,
     onLeave: pauseVideo,

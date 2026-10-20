@@ -1,7 +1,15 @@
+import { Cta } from "@/components/primitives/Cta"
 import { NavDropdown } from "@/components/primitives/NavDropdown"
 import { ThemeToggle } from "@/components/primitives/ThemeToggle"
-import { MobileNav } from "@/components/sections/MobileNav"
-import { headerAside, headerNav, launchApp, site } from "@/data/site"
+import { Drawer } from "@/components/sections/Drawer"
+import {
+  headerAside,
+  headerNav,
+  launchApp,
+  mainNav,
+  site,
+} from "@/data/site"
+import { cx } from "@/lib/cx"
 import { currentPath, isCurrentPath } from "@/lib/nav"
 
 /** The Discord glyph, copied from the original's header. */
@@ -40,7 +48,7 @@ export function SiteHeader() {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img alt={site.logoAlt} src={site.logo} className="themed-logo h-6 w-auto" />
           </a>
-          <nav aria-label="Main" className="hidden min-w-0 items-stretch lg:flex">
+          <nav aria-label={mainNav.label} className="hidden min-w-0 items-stretch lg:flex">
             <ul className="flex h-full items-stretch">
               {headerNav.map((entry, index) => {
                 // The last entry carries the rule that separates the site's own
@@ -66,28 +74,24 @@ export function SiteHeader() {
                 return (
                   <li
                     key={entry.label}
-                    className={["flex items-stretch", separator]
-                      .filter(Boolean)
-                      .join(" ")}
+                    className={cx("flex items-stretch", separator)}
                   >
                     <a
                       aria-current={current ? "page" : undefined}
-                      className={[
+                      className={cx(
                         "group flex h-full items-center px-2.5 hud-label whitespace-nowrap",
                         current ? "text-ink" : "text-muted hover:text-ink",
-                      ].join(" ")}
+                      )}
                       href={entry.href}
                       {...(entry.external
                         ? { target: "_blank", rel: "noopener noreferrer" }
                         : {})}
                     >
                       <span
-                        className={[
+                        className={cx(
                           "flex items-center gap-1.5 px-1.5 py-0.5 group-hover:bg-invert-bg group-hover:text-invert-fg",
                           current ? "bg-invert-bg text-invert-fg" : "",
-                        ]
-                          .filter(Boolean)
-                          .join(" ")}
+                        )}
                       >
                         {entry.label}
                       </span>
@@ -131,20 +135,19 @@ export function SiteHeader() {
               ),
             )}
             <ThemeToggle />
-            <a
+            <Cta
               href={launchApp.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              data-cta=""
-              className="inline-flex w-fit items-center justify-center gap-2 rounded-none font-mono font-bold uppercase tracking-[0.12em] whitespace-nowrap duration-150 bg-invert-bg text-invert-fg transition-opacity hover:opacity-80 py-2 text-[11px] h-full border-l border-line px-5"
+              external
+              size="bar"
+              className="h-full border-l border-line"
             >
               {launchApp.label}
-            </a>
+            </Cta>
           </div>
           <div className="flex items-stretch md:hidden">
             <ThemeToggle />
           </div>
-          <MobileNav />
+          <Drawer />
         </div>
       </div>
     </header>
