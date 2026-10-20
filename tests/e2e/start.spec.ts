@@ -131,7 +131,7 @@ test("both routes to start are offered", async ({ page, visit }) => {
   await expect(primary).toBeVisible()
   await expect(secondary).toBeVisible()
 
-  await expect(primary).toHaveAttribute("href", "/download")
+  await expect(primary).toHaveAttribute("href", "https://getartcraft.com/download")
   await expect(secondary).toHaveAttribute("href", "https://app.getartcraft.com/")
 
   // The primary fills with the invert colours; the secondary is outlined.

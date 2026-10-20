@@ -1,6 +1,8 @@
 "use client"
 
-import { themeToggleLabel, useTheme } from "@/lib/theme"
+import { themeToggle } from "@/data/site"
+import { cx } from "@/lib/cx"
+import { useTheme } from "@/lib/theme"
 
 /** The moon the original's toggle shows. */
 function MoonIcon() {
@@ -34,15 +36,12 @@ function MoonIcon() {
 export function ThemeToggle({ className }: { className?: string }) {
   const { theme, toggle } = useTheme()
 
-  const label =
-    theme === "dark" ? themeToggleLabel.toLight : themeToggleLabel.toDark
+  const label = theme === "dark" ? themeToggle.toLight : themeToggle.toDark
 
-  const classes = [
+  const classes = cx(
     "invert-block flex items-center justify-center text-muted hover:text-invert-fg w-12 border-l border-line",
     className,
-  ]
-    .filter(Boolean)
-    .join(" ")
+  )
 
   return (
     <button type="button" aria-label={label} onClick={toggle} className={classes}>

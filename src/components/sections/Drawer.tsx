@@ -3,9 +3,11 @@
 import { useCallback, useEffect, useRef, useState } from "react"
 import { createPortal } from "react-dom"
 
+import { Cta } from "@/components/primitives/Cta"
 import { ThemeToggle } from "@/components/primitives/ThemeToggle"
 import type { NavLink } from "@/data/site"
-import { headerAside, headerNav, launchApp, mobileMenu, site } from "@/data/site"
+import { drawer, headerAside, headerNav, launchApp, site } from "@/data/site"
+import { cx } from "@/lib/cx"
 import { currentPath, isCurrentPath } from "@/lib/nav"
 
 /** The menu glyph, copied from the original's header. */
@@ -91,12 +93,10 @@ function DrawerLink({
     <a
       href={link.href}
       aria-current={current ? "page" : undefined}
-      className={[
+      className={cx(
         "block py-2 text-muted hover:text-ink",
         current ? "text-ink" : "",
-      ]
-        .filter(Boolean)
-        .join(" ")}
+      )}
       {...(link.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
     >
       {link.label}
@@ -105,7 +105,8 @@ function DrawerLink({
 }
 
 /**
- * The mobile navigation drawer.
+ * The Drawer: the panel that covers a narrow screen when the menu button is
+ * pressed.
  *
  * On a narrow screen the primary navigation cannot fit, so it collapses into
  * a menu button. The button opens a drawer holding every destination the site
@@ -115,8 +116,11 @@ function DrawerLink({
  * While the drawer is open it holds the focus, the page behind it cannot
  * scroll, and Escape, a click outside it, or a link inside it closes it —
  * and the focus goes back to the menu button.
+ *
+ * The panel's id is the original's: the original's own header names it
+ * `mobile-nav`, and the button's `aria-controls` points at it.
  */
-export function MobileNav() {
+export function Drawer() {
   const [open, setOpen] = useState(false)
   const menuButton = useRef<HTMLButtonElement>(null)
   const panel = useRef<HTMLDivElement>(null)
@@ -212,7 +216,7 @@ export function MobileNav() {
     }
   }
 
-  const drawer = (
+  const drawerPanel = (
     <div className="fixed inset-0 z-[60]">
       {/* The page behind the drawer, veiled; a click on it closes the drawer. */}
       <div
@@ -225,7 +229,7 @@ export function MobileNav() {
         id="mobile-nav"
         role="dialog"
         aria-modal="true"
-        aria-label={mobileMenu.label}
+        aria-label={drawer.label}
         tabIndex={-1}
         onClick={onPanelClick}
         className="absolute inset-y-0 left-0 flex w-[85vw] max-w-sm flex-col overflow-hidden border-r border-line bg-bg-raised"
@@ -240,7 +244,7 @@ export function MobileNav() {
           <button
             type="button"
             onClick={close}
-            aria-label={mobileMenu.close}
+            aria-label={drawer.close}
             className="flex h-9 w-9 items-center justify-center text-muted hover:bg-invert-bg hover:text-invert-fg"
           >
             <CloseIcon />
@@ -279,15 +283,14 @@ export function MobileNav() {
             ))}
           </ul>
           <div className="flex items-stretch border-t border-line">
-            <a
+            <Cta
               href={launchApp.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              data-cta=""
-              className="flex flex-1 items-center justify-center gap-2 bg-invert-bg px-5 py-3 font-mono text-[11px] font-bold uppercase tracking-[0.12em] whitespace-nowrap text-invert-fg"
+              external
+              size="bar"
+              className="flex-1 py-3"
             >
               {launchApp.label}
-            </a>
+            </Cta>
             <ThemeToggle />
           </div>
         </div>
@@ -306,13 +309,13 @@ export function MobileNav() {
           onClick={() => setOpen((value) => !value)}
           className="flex w-12 items-center justify-center border-l border-line text-muted hover:bg-invert-bg hover:text-invert-fg"
         >
-          <span className="sr-only">{mobileMenu.button}</span>
+          <span className="sr-only">{drawer.button}</span>
           <MenuIcon />
         </button>
       </div>
       {/* The drawer is portalled out of the header: the header's backdrop
           filter would otherwise hold it in place. */}
-      {open ? createPortal(drawer, document.body) : null}
+      {open ? createPortal(drawerPanel, document.body) : null}
     </>
   )
 }

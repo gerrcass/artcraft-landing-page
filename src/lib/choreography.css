@@ -8,22 +8,10 @@
  * content with the motion taken out.
  *
  * The colours and the typefaces are not here: they are tokens, and the token
- * layer is `src/app/globals.css`. The motion values below are the exception,
- * and they are named the same way the tokens are — written once here, reached
- * by name everywhere else. They live here rather than in the token layer
- * because that file is being edited by other tickets as we speak.
+ * layer is `src/app/globals.css`. The motion values are tokens too, and they
+ * live there as well: they are written once, in the token layer, and reached
+ * by name everywhere else.
  * ------------------------------------------------------------------------- */
-
-:root {
-  /* How far a Reveal sits below where it will end up. */
-  --reveal-offset: 14px;
-  /* How long a Reveal takes to arrive. */
-  --reveal-duration: 700ms;
-  /* How a Reveal eases into place. */
-  --reveal-easing: cubic-bezier(0.22, 1, 0.36, 1);
-  /* How long a drawing mark takes to draw itself in. */
-  --draw-duration: 600ms;
-}
 
 /* ---------------------------------------------------------------------------
  * The Reveal.

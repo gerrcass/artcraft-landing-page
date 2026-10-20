@@ -2,11 +2,9 @@
 
 import { useCallback, useEffect, useSyncExternalStore } from "react"
 
-import { themeToggle } from "@/data/site"
-
 /**
- * The theme, in one place, so the header's toggle and the mobile drawer
- * (ticket #6) agree on what the current theme is.
+ * The theme, in one place, so the header's toggle and the drawer agree on
+ * what the current theme is.
  *
  * The theme is applied before the first paint by the inline script in
  * `src/app/layout.tsx`, which reads the same storage key. This module handles
@@ -18,9 +16,6 @@ export type ThemeName = "light" | "dark"
 
 /** The original's storage key, so the behaviour is identical. */
 export const THEME_STORAGE_KEY = "artcraft-theme"
-
-/** The toggle's accessible names, named for the theme each one switches to. */
-export const themeToggleLabel = themeToggle
 
 declare global {
   interface Window {
@@ -112,12 +107,10 @@ export function useTheme() {
     return () => query.removeEventListener("change", onChange)
   }, [])
 
-  const setTheme = useCallback((next: ThemeName) => applyTheme(next), [])
-
   const toggle = useCallback(
     () => applyTheme(appliedTheme() === "dark" ? "light" : "dark"),
     [],
   )
 
-  return { theme, setTheme, toggle }
+  return { theme, toggle }
 }

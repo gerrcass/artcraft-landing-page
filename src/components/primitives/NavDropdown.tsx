@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react"
 
 import type { NavLink } from "@/data/site"
+import { cx } from "@/lib/cx"
 
 /** The chevron the original's dropdown triggers carry. */
 function Chevron() {
@@ -83,9 +84,7 @@ export function NavDropdown({
     }
   }, [open])
 
-  const itemClasses = ["relative flex items-stretch", className]
-    .filter(Boolean)
-    .join(" ")
+  const itemClasses = cx("relative flex items-stretch", className)
 
   return (
     <li className={itemClasses} ref={item}>
