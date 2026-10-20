@@ -9,6 +9,18 @@ showcase responsive layout and modern UI construction. `AGENTS.md` says how the
 project is built; `docs/agents/reference-notes.md` is the transcription of the
 original that the clone is measured against.
 
+**Live: [gerrcass.github.io/artcraft-landing-page](https://gerrcass.github.io/artcraft-landing-page/)**
+
+![The landing page in the light theme, at 1440px](docs/screenshots/landing-light-1440.webp)
+
+The page is one route: a sticky HUD-style header, a full-viewport hero with an
+oversized Wordmark over an Orbit, a Marquee ticker, four numbered sections inside a
+1280px hairline Frame, and a five-column footer. The design system is transcribed from
+the original's compiled stylesheet into a Tailwind v4 token layer, so the colour and
+type scale are the original's rather than an approximation of them. All the copy lives
+in one typed content module, transcribed verbatim. The scroll choreography is
+hand-rolled on platform primitives, with no animation library.
+
 ## Running it
 
 ```sh
@@ -26,6 +38,26 @@ npm run start      # serves the build that `npm run build` produced
 The dev server takes a port of its own — `npm run dev -- -p 3211` — and the
 Playwright config reads `PORT` from the environment, so two worktrees can run their
 suites at the same time without one of them taking the other's server.
+
+## The GitHub Pages build
+
+The site is published to GitHub Pages by
+[`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml), which
+builds it and publishes the result on every push to `main`.
+
+A GitHub Pages project site is served from `/<repository>/`, not from the root of the
+domain, so the build carries a base path, and the paths to the assets under `public/`
+have to carry it too. The prefix is read from the environment, so it is fixed at build
+time and the exported site is entirely static:
+
+```sh
+NEXT_PUBLIC_BASE_PATH=/artcraft-landing-page npm run build:pages   # writes out/
+```
+
+Every other build — the development server, the production server, the test suite —
+runs with an empty prefix, and the paths are the plain ones. `src/lib/base-path.ts`
+holds the one place that knows about it, and `postcss-prefix-asset-paths.cjs` does the
+same for the stylesheet.
 
 ## The checks
 
@@ -54,6 +86,7 @@ src/lib/            the choreography, the theme, and the navigation helpers
 public/             the vendored fonts, videos, images and logo
 tests/e2e/          the Playwright specs
 docs/reference/     the capture of the original site
+docs/screenshots/   the clone's own captures
 docs/adr/           the decisions, and why they were made
 ```
 

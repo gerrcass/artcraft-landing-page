@@ -3,6 +3,7 @@ import type { ReactNode } from "react"
 
 import { Choreography } from "@/components/Choreography"
 import { site } from "@/data/site"
+import { asset } from "@/lib/base-path"
 
 import "./globals.css"
 
@@ -51,28 +52,28 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <link
           rel="preload"
-          href="/fonts/archivo-latin.woff2"
+          href={asset("/fonts/archivo-latin.woff2")}
           as="font"
           type="font/woff2"
           crossOrigin="anonymous"
         />
         <link
           rel="preload"
-          href="/fonts/inter-latin.woff2"
+          href={asset("/fonts/inter-latin.woff2")}
           as="font"
           type="font/woff2"
           crossOrigin="anonymous"
         />
         <link
           rel="preload"
-          href="/fonts/geist-mono-latin.woff2"
+          href={asset("/fonts/geist-mono-latin.woff2")}
           as="font"
           type="font/woff2"
           crossOrigin="anonymous"
         />
         <link
           rel="preload"
-          href="/fonts/instrument-serif-italic-latin.woff2"
+          href={asset("/fonts/instrument-serif-italic-latin.woff2")}
           as="font"
           type="font/woff2"
           crossOrigin="anonymous"

@@ -1,3 +1,5 @@
+import { asset } from "@/lib/base-path"
+
 /**
  * The content module: every word of copy on the landing page, in one typed place.
  *
@@ -129,7 +131,7 @@ export const site = {
     "ArtCraft is the open-source desktop app for generating AI video and images — built for artists who want real control.",
   email: "hello@storyteller.ai",
   tagline: "The open-source studio for controllable AI image and video.",
-  logo: "/artcraft-icon.svg",
+  logo: asset("/artcraft-icon.svg"),
   /** The logo's accessible name — the original's `alt` on the vendored mark. */
   logoAlt: "ArtCraft",
   repository: "https://github.com/storytold/artcraft",
@@ -278,7 +280,7 @@ export const craftAppsLinks: NavLink[] = [
 ];
 
 export const headerNav: NavEntry[] = [
-  { label: "Home", href: "/" },
+  { label: "Home", href: asset("/") },
   { label: "Image", href: "https://app.getartcraft.com/create-image", external: true },
   { label: "Video", href: "https://app.getartcraft.com/create-video", external: true },
   { label: "Resources", children: resourcesLinks },
@@ -354,7 +356,7 @@ export const features = {
       index: "01",
       title: "Image to Location",
       body: "Place virtual actors into physical environments. Establish single-location consistency and film multiple shots in a room without things disappearing.",
-      video: { src: "/videos/features/WorldLabs_Demo_2.webm", label: "Image to Location demo" },
+      video: { src: asset("/videos/features/WorldLabs_Demo_2.webm"), label: "Image to Location demo" },
     },
     {
       kind: "video",
@@ -362,7 +364,7 @@ export const features = {
       index: "02",
       title: "Build scenes with depth",
       body: "Use images, backdrops, foreground elements, and props in scenes with real depth. A couple of images blends naturally into a finished composition.",
-      video: { src: "/videos/features/Panel.webm", label: "Build scenes with depth demo" },
+      video: { src: asset("/videos/features/Panel.webm"), label: "Build scenes with depth demo" },
     },
     {
       kind: "video",
@@ -370,7 +372,7 @@ export const features = {
       index: "03",
       title: "Precise layered control",
       body: "Combine images, background removal, layers, and simple drawing tools to compose a scene exactly the way you imagined it.",
-      video: { src: "/videos/features/Editor.webm", label: "Precise layered control demo" },
+      video: { src: asset("/videos/features/Editor.webm"), label: "Precise layered control demo" },
     },
     {
       kind: "video",
@@ -378,7 +380,7 @@ export const features = {
       index: "04",
       title: "Image to 3D Mesh",
       body: "Turning images into 3D helps position elements exactingly. Block complex scenes with intentional geometry instead of fighting prompts.",
-      video: { src: "/videos/features/Make_3D.webm", label: "Image to 3D Mesh demo" },
+      video: { src: asset("/videos/features/Make_3D.webm"), label: "Image to 3D Mesh demo" },
     },
     {
       kind: "video",
@@ -386,7 +388,7 @@ export const features = {
       index: "05",
       title: "Mix every kind of asset",
       body: "Combine image cutouts, worlds, and 3D meshes in one canvas to lay out scenes with precision and intention.",
-      video: { src: "/videos/features/Mixed.webm", label: "Mix every kind of asset demo" },
+      video: { src: asset("/videos/features/Mixed.webm"), label: "Mix every kind of asset demo" },
     },
     {
       kind: "video",
@@ -394,7 +396,7 @@ export const features = {
       index: "06",
       title: "Character Posing",
       body: 'Dynamically pose your characters to nail the precise character, scene, and camera blocking before calling "action".',
-      video: { src: "/videos/features/Character-Pose.webm", label: "Character Posing demo" },
+      video: { src: asset("/videos/features/Character-Pose.webm"), label: "Character Posing demo" },
     },
     {
       kind: "video",
@@ -402,7 +404,7 @@ export const features = {
       index: "07",
       title: "Background Removal",
       body: "Instantly remove backgrounds from images to create assets for your scenes. Clean, precise, and ready for compositing.",
-      video: { src: "/videos/features/Background.webm", label: "Background Removal demo" },
+      video: { src: asset("/videos/features/Background.webm"), label: "Background Removal demo" },
     },
     {
       kind: "link",
@@ -478,7 +480,7 @@ export const proof = {
       label: "Community film",
       index: "01",
       title: "Made with ArtCraft #1",
-      poster: "/images/films/made-with-artcraft-1.jpg",
+      poster: asset("/images/films/made-with-artcraft-1.jpg"),
       href: "https://www.youtube.com/watch?v=HDdsKJl92H4",
       external: true,
     },
@@ -486,7 +488,7 @@ export const proof = {
       label: "Community film",
       index: "02",
       title: "Made with ArtCraft #2",
-      poster: "/images/films/made-with-artcraft-2.jpg",
+      poster: asset("/images/films/made-with-artcraft-2.jpg"),
       href: "https://www.youtube.com/watch?v=oqoCWdOwr2U",
       external: true,
     },
@@ -494,7 +496,7 @@ export const proof = {
       label: "Community film",
       index: "03",
       title: "Made with ArtCraft #3",
-      poster: "/images/films/made-with-artcraft-3.jpg",
+      poster: asset("/images/films/made-with-artcraft-3.jpg"),
       href: "https://www.youtube.com/watch?v=H4NFXGMuwpY",
       external: true,
     },
@@ -576,16 +578,16 @@ export type OrbitTile = {
 };
 
 export const orbitTiles: OrbitTile[] = [
-  { src: "/images/orbit/tile-01.jpg", alt: "", x: 46, y: 6, width: 9, depth: 0.2, duration: 26 },
-  { src: "/images/orbit/tile-02.jpg", alt: "", x: 59, y: 12, width: 14, depth: 0.05, duration: 34 },
-  { src: "/images/orbit/tile-03.jpg", alt: "", x: 78, y: 10, width: 20, depth: 0, duration: 30 },
-  { src: "/images/orbit/tile-04.jpg", alt: "", x: 31, y: 21, width: 9, depth: 0.35, duration: 38 },
-  { src: "/images/orbit/tile-05.jpg", alt: "", x: 69, y: 29, width: 16, depth: 0.12, duration: 28 },
-  { src: "/images/orbit/tile-06.jpg", alt: "", x: 88, y: 40, width: 15, depth: 0.18, duration: 33 },
-  { src: "/images/orbit/tile-07.jpg", alt: "", x: 53, y: 36, width: 11, depth: 0.45, duration: 40 },
-  { src: "/images/orbit/tile-08.jpg", alt: "", x: 14, y: 60, width: 14, depth: 0.5, duration: 36 },
-  { src: "/images/orbit/tile-09.jpg", alt: "", x: 26, y: 74, width: 13, depth: 0.28, duration: 31 },
-  { src: "/images/orbit/tile-10.jpg", alt: "", x: 80, y: 78, width: 18, depth: 0.22, duration: 35 },
+  { src: asset("/images/orbit/tile-01.jpg"), alt: "", x: 46, y: 6, width: 9, depth: 0.2, duration: 26 },
+  { src: asset("/images/orbit/tile-02.jpg"), alt: "", x: 59, y: 12, width: 14, depth: 0.05, duration: 34 },
+  { src: asset("/images/orbit/tile-03.jpg"), alt: "", x: 78, y: 10, width: 20, depth: 0, duration: 30 },
+  { src: asset("/images/orbit/tile-04.jpg"), alt: "", x: 31, y: 21, width: 9, depth: 0.35, duration: 38 },
+  { src: asset("/images/orbit/tile-05.jpg"), alt: "", x: 69, y: 29, width: 16, depth: 0.12, duration: 28 },
+  { src: asset("/images/orbit/tile-06.jpg"), alt: "", x: 88, y: 40, width: 15, depth: 0.18, duration: 33 },
+  { src: asset("/images/orbit/tile-07.jpg"), alt: "", x: 53, y: 36, width: 11, depth: 0.45, duration: 40 },
+  { src: asset("/images/orbit/tile-08.jpg"), alt: "", x: 14, y: 60, width: 14, depth: 0.5, duration: 36 },
+  { src: asset("/images/orbit/tile-09.jpg"), alt: "", x: 26, y: 74, width: 13, depth: 0.28, duration: 31 },
+  { src: asset("/images/orbit/tile-10.jpg"), alt: "", x: 80, y: 78, width: 18, depth: 0.22, duration: 35 },
 ];
 
 /** The Orbit's rings and arcs, measured off the original's capture. */
