@@ -109,7 +109,14 @@ function VideoCard({ entry }: { entry: Extract<FeatureEntry, { kind: "video" }> 
  */
 function LinkCard({ entry }: { entry: Extract<FeatureEntry, { kind: "link" }> }) {
   return (
-    <a data-reveal="true" href={entry.action.href} className="group flex flex-col bg-bg">
+    <a
+      data-reveal="true"
+      href={entry.action.href}
+      {...(entry.action.external
+        ? { target: "_blank", rel: "noopener noreferrer" }
+        : {})}
+      className="group flex flex-col bg-bg"
+    >
       <MetaRow entry={entry} />
 
       <div className="relative flex aspect-video w-full flex-col items-center justify-center gap-4 overflow-hidden bg-bg-sunken">

@@ -370,8 +370,9 @@ export function Hero() {
                   <a
                     key={fact.label}
                     href={fact.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    {...(fact.external
+                      ? { target: "_blank", rel: "noopener noreferrer" }
+                      : {})}
                     className="hud-label flex items-center gap-1.5 text-muted hover:text-ink"
                   >
                     <GitHubMark />

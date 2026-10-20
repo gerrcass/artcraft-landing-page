@@ -47,14 +47,15 @@ export function Start() {
             {start.body}
           </p>
 
-          {/* The original's calls to action open in the same tab, so the
-              `Cta` primitive's `external` flag is left off here. */}
+          {/* The calls to action leave the clone for the original site, so
+              they open in a new tab, as every external destination does. */}
           <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
             {start.actions.map((action) => (
               <Cta
                 key={action.label}
                 href={action.href}
                 variant={action.variant}
+                external={action.external}
               >
                 {action.label}
               </Cta>

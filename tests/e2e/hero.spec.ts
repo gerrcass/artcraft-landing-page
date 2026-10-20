@@ -131,7 +131,7 @@ test("the hero offers a primary and a secondary call to action", async ({
 
   const primary = page.getByRole("link", { name: "Download free" })
   await expect(primary).toBeVisible()
-  await expect(primary).toHaveAttribute("href", "/download")
+  await expect(primary).toHaveAttribute("href", "https://getartcraft.com/download")
 
   const secondary = page.getByRole("link", { name: "Use on web" })
   await expect(secondary).toBeVisible()

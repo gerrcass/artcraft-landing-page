@@ -79,8 +79,9 @@ export function Proof() {
               <div className="relative aspect-video w-full overflow-hidden bg-bg-sunken">
                 <a
                   href={entry.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  {...(entry.external
+                    ? { target: "_blank", rel: "noopener noreferrer" }
+                    : {})}
                   aria-label={`${proof.play.namePrefix} ${entry.title}`}
                   className="group absolute inset-0 h-full w-full"
                 >

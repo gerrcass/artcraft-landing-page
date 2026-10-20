@@ -106,8 +106,9 @@ export function SiteHeader() {
                 <a
                   key={entry.href}
                   href={entry.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  {...(entry.external
+                    ? { target: "_blank", rel: "noopener noreferrer" }
+                    : {})}
                   aria-label={entry.label}
                   title={entry.label}
                   className="flex w-12 items-center justify-center border-l border-line text-muted hover:bg-invert-bg hover:text-invert-fg"
