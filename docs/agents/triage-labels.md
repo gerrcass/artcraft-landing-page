@@ -13,3 +13,15 @@ The skills speak in terms of five canonical triage roles. This file maps those r
 When a skill mentions a role (e.g. "apply the AFK-ready triage label"), use the corresponding label string from this table.
 
 Edit the "Label in our tracker" column to match whatever vocabulary you actually use.
+
+## Claim state
+
+A sixth label is not a triage role. It records that work has started.
+
+| Label        | Meaning                                  |
+| ------------ | ---------------------------------------- |
+| `in-progress` | An agent is currently working on this ticket |
+
+Apply it when you claim a ticket, alongside whatever triage label the ticket already
+carries, and remove it when the ticket is closed. An open ticket carrying `in-progress` is
+claimed; an open ticket without it is available.

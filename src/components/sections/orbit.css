@@ -1,0 +1,64 @@
+/* ---------------------------------------------------------------------------
+ * The Orbit: the scene behind the hero's Wordmark.
+ *
+ * The original renders it as a WebGL canvas. The clone reproduces it in SVG
+ * and CSS (ADR-0004): SVG circles and arcs for the rings, absolutely
+ * positioned images for the tiles, and keyframes for their drift.
+ *
+ * The tile's depth drives its blur and its scale; its duration drives its
+ * drift. The drift and the tilt are derived from the tile's own place in the
+ * scene, so the tiles read as objects floating at different depths.
+ * ------------------------------------------------------------------------- */
+
+.orbit {
+  pointer-events: none;
+}
+
+.orbit-tile {
+  position: absolute;
+  aspect-ratio: 8 / 5;
+  object-fit: cover;
+  border-radius: 12px;
+  filter:
+    blur(var(--orbit-blur, 0px))
+    brightness(var(--orbit-brightness, 1))
+    saturate(var(--orbit-saturation, 1));
+  animation: orbit-drift var(--orbit-duration) ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+@keyframes orbit-drift {
+  from {
+    transform:
+      rotate(var(--orbit-tilt, 0deg))
+      translate3d(0, 0, 0)
+      scale(var(--orbit-scale, 1));
+  }
+
+  to {
+    transform:
+      rotate(var(--orbit-tilt, 0deg))
+      translate3d(var(--orbit-drift-x, 0px), var(--orbit-drift-y, 0px), 0)
+      scale(var(--orbit-scale, 1));
+  }
+}
+
+/* In the dark theme the scene is lit from behind, and the tiles are dim. */
+:root[data-theme="dark"] .orbit-tile {
+  --orbit-brightness: 0.45;
+  --orbit-saturation: 0.8;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .orbit-tile {
+    --orbit-brightness: 0.45;
+    --orbit-saturation: 0.8;
+  }
+}
+
+/* The Reduced Path: the tiles are still there, but they do not drift. */
+@media (prefers-reduced-motion: reduce) {
+  .orbit-tile {
+    animation: none;
+  }
+}

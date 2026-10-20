@@ -1,0 +1,464 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+ * The typefaces.
+ *
+ * The font files are vendored in `public/fonts/` and served with plain
+ * `@font-face` rules, so the token layer stays the single place a typeface is
+ * named. The family stacks themselves are theme tokens below.
+ * ------------------------------------------------------------------------- */
+
+@font-face {
+  font-family: "Archivo";
+  font-style: normal;
+  font-weight: 100 900;
+  font-stretch: 62% 125%;
+  font-display: swap;
+  src: url("/fonts/archivo-latin.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/fonts/inter-latin.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Geist Mono";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/fonts/geist-mono-latin.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Instrument Serif";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/instrument-serif-italic-latin.woff2") format("woff2");
+}
+
+/* ---------------------------------------------------------------------------
+ * The token layer — the only place a colour or a font value is written.
+ *
+ * Both themes declare exactly the same token names; only the values change.
+ * The three blocks below are kept in lockstep on purpose: a token added to one
+ * theme has to be added to the other two, which `tests/e2e/tokens.spec.ts`
+ * enforces.
+ * ------------------------------------------------------------------------- */
+
+:root {
+  --bg: #f2f1ee;
+  --bg-raised: #faf9f7;
+  --bg-sunken: #e9e8e4;
+  --ink: #101014;
+  --ink-strong: #000;
+  --muted: #1010149e;
+  --line: #10101429;
+  --line-strong: #10101466;
+  --faint: #1010146b;
+  --accent: #2d81ff;
+  --accent-ink: #1659c4;
+  --invert-bg: #101014;
+  --invert-fg: #f2f1ee;
+  --danger: #b3261e;
+  --scanline: #10101408;
+  /* The scrim over a Film Tile's poster. The original's scrim is the same in
+     both themes, so this token's value does not change either. */
+  --scrim: #00000033;
+  /* The hero Orbit's heavy arcs read as grey in the light theme. */
+  --orbit-arc-1: #1010148c;
+  --orbit-arc-2: #1010148c;
+  --orbit-arc-3: #1010148c;
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  --bg: #121316;
+  --bg-raised: #101014;
+  --bg-sunken: #060607;
+  --ink: #f2f1ee;
+  --ink-strong: #fff;
+  --muted: #f2f1ee99;
+  --line: #f2f1ee26;
+  --line-strong: #f2f1ee66;
+  --faint: #f2f1ee61;
+  --accent: #2d81ff;
+  --accent-ink: #74aaff;
+  --invert-bg: #fff;
+  --invert-fg: #0b0b0c;
+  --danger: #ff6259;
+  --scanline: #ffffff06;
+  /* The scrim over a Film Tile's poster. The original's scrim is the same in
+     both themes, so this token's value does not change either. */
+  --scrim: #00000033;
+  /* In the dark theme the arcs carry colour. */
+  --orbit-arc-1: #356800;
+  --orbit-arc-2: #1e286e;
+  --orbit-arc-3: #8c0589;
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #121316;
+    --bg-raised: #101014;
+    --bg-sunken: #060607;
+    --ink: #f2f1ee;
+    --ink-strong: #fff;
+    --muted: #f2f1ee99;
+    --line: #f2f1ee26;
+    --line-strong: #f2f1ee66;
+    --faint: #f2f1ee61;
+    --accent: #2d81ff;
+    --accent-ink: #74aaff;
+    --invert-bg: #fff;
+    --invert-fg: #0b0b0c;
+    --danger: #ff6259;
+    --scanline: #ffffff06;
+    --scrim: #00000033;
+    --orbit-arc-1: #356800;
+    --orbit-arc-2: #1e286e;
+    --orbit-arc-3: #8c0589;
+    color-scheme: dark;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * The motion tokens.
+ *
+ * The Reveal's offset, duration and easing, and the drawing marks' duration.
+ * They are the same in both themes, and they are not colours, so they live in
+ * their own block rather than in the light theme's — the token parity test
+ * compares the theme blocks with each other.
+ * ------------------------------------------------------------------------- */
+
+:root {
+  /* How far a Reveal sits below where it will end up. */
+  --reveal-offset: 14px;
+  /* How long a Reveal takes to arrive. */
+  --reveal-duration: 700ms;
+  /* How a Reveal eases into place. */
+  --reveal-easing: cubic-bezier(0.22, 1, 0.36, 1);
+  /* How long a drawing mark takes to draw itself in. */
+  --draw-duration: 600ms;
+}
+
+/* ---------------------------------------------------------------------------
+ * The token layer, exposed to Tailwind.
+ *
+ * `inline` is what makes the utilities resolve to the themed value: `bg-bg`
+ * becomes `background-color: var(--bg)`, so it follows the theme. The utility
+ * names are the token names: `bg-bg`, `text-ink`, `border-line`, `bg-accent`,
+ * `text-invert-fg`, and so on.
+ * ------------------------------------------------------------------------- */
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-raised: var(--bg-raised);
+  --color-bg-sunken: var(--bg-sunken);
+  --color-ink: var(--ink);
+  --color-ink-strong: var(--ink-strong);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-faint: var(--faint);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-invert-bg: var(--invert-bg);
+  --color-invert-fg: var(--invert-fg);
+  --color-danger: var(--danger);
+  --color-scanline: var(--scanline);
+  --color-scrim: var(--scrim);
+  --color-orbit-arc-1: var(--orbit-arc-1);
+  --color-orbit-arc-2: var(--orbit-arc-2);
+  --color-orbit-arc-3: var(--orbit-arc-3);
+
+  --font-archivo: "Archivo", system-ui, sans-serif;
+  --font-inter: "Inter", system-ui, sans-serif;
+  --font-geist-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-instrument: "Instrument Serif", Georgia, serif;
+
+  --font-display: var(--font-archivo);
+  --font-body: var(--font-inter);
+  --font-mono: var(--font-geist-mono);
+  --font-serif: var(--font-instrument);
+}
+
+/* ---------------------------------------------------------------------------
+ * The colour tokens are registered so they can be transitioned, and so their
+ * initial value is known before the theme blocks are applied.
+ * ------------------------------------------------------------------------- */
+
+@property --bg {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #f2f1ee;
+}
+
+@property --bg-raised {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #faf9f7;
+}
+
+@property --bg-sunken {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #e9e8e4;
+}
+
+@property --ink {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #101014;
+}
+
+@property --ink-strong {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #000;
+}
+
+@property --muted {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #1010149e;
+}
+
+@property --line {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #10101429;
+}
+
+@property --line-strong {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #10101466;
+}
+
+@property --faint {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #1010146b;
+}
+
+@property --accent {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #2d81ff;
+}
+
+@property --accent-ink {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #1659c4;
+}
+
+@property --invert-bg {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #101014;
+}
+
+@property --invert-fg {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #f2f1ee;
+}
+
+@property --danger {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #b3261e;
+}
+
+@property --scanline {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #10101408;
+}
+
+@property --scrim {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #00000033;
+}
+
+@property --orbit-arc-1 {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #1010148c;
+}
+
+@property --orbit-arc-2 {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #1010148c;
+}
+
+@property --orbit-arc-3 {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #1010148c;
+}
+
+/* Every colour flips together when the theme is switched. */
+html.theme-anim {
+  transition:
+    --bg .4s,
+    --bg-raised .4s,
+    --bg-sunken .4s,
+    --ink .4s,
+    --ink-strong .4s,
+    --muted .4s,
+    --faint .4s,
+    --line .4s,
+    --line-strong .4s,
+    --accent .4s,
+    --accent-ink .4s,
+    --invert-bg .4s,
+    --invert-fg .4s,
+    --danger .4s,
+    --scanline .4s,
+    --scrim .4s,
+    --orbit-arc-1 .4s,
+    --orbit-arc-2 .4s,
+    --orbit-arc-3 .4s;
+}
+
+html.theme-anim body * {
+  transition-duration: 0s !important;
+}
+
+/* ---------------------------------------------------------------------------
+ * The base layer.
+ * ------------------------------------------------------------------------- */
+
+html {
+  background: var(--bg);
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+::selection {
+  background: var(--accent);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent-ink);
+  outline-offset: 2px;
+}
+
+/* ---------------------------------------------------------------------------
+ * The original's hand-written classes.
+ * ------------------------------------------------------------------------- */
+
+.font-display {
+  font-weight: 620;
+  font-stretch: 118%;
+}
+
+/*
+ * The Wordmark: the display face at the weight and the stretch that reproduce
+ * the original's wide logotype. The `font-display` utility carries the
+ * headings' weight and stretch, not the Wordmark's.
+ */
+.wordmark {
+  font-family: var(--font-display);
+  font-weight: 750;
+  font-stretch: 125%;
+}
+
+.hud-label {
+  font-family: var(--font-mono);
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  font-size: .6875rem;
+  font-weight: 500;
+}
+
+.tick {
+  pointer-events: none;
+  width: 11px;
+  height: 11px;
+  position: absolute;
+}
+
+.tick::before,
+.tick::after {
+  content: "";
+  background: var(--line-strong);
+  position: absolute;
+}
+
+.tick::before {
+  width: 1px;
+  top: 0;
+  bottom: 0;
+  left: 5px;
+}
+
+.tick::after {
+  height: 1px;
+  top: 5px;
+  left: 0;
+  right: 0;
+}
+
+.tick-half::before {
+  top: 5px;
+}
+
+.marquee {
+  display: flex;
+  overflow: hidden;
+}
+
+.marquee-track {
+  flex-shrink: 0;
+  min-width: 100%;
+  display: flex;
+  animation: 36s linear infinite marquee-scroll;
+}
+
+@keyframes marquee-scroll {
+  to {
+    transform: translate(-100%);
+  }
+}
+
+.invert-block {
+  transition: background-color .12s linear, color .12s linear;
+}
+
+.invert-block:hover,
+.invert-block[data-active="true"] {
+  background: var(--invert-bg);
+  color: var(--invert-fg);
+}
+
+.themed-logo {
+  filter: brightness(0);
+}
+
+:root[data-theme="dark"] .themed-logo {
+  filter: brightness(0) invert();
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .themed-logo {
+    filter: brightness(0) invert();
+  }
+}
